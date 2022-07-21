@@ -189,20 +189,22 @@ public class FlashView: UIView {
     override public func layoutSubviews() {
         super.layoutSubviews()
 
-        if let superview = superview {
-            frame = superview.bounds.inset(by: superview.safeAreaInsets).inset(by: insets)
-        }
-
-        let contentBounds = bounds.inset(by: contentInsets)
+        guard let superview = superview else { return }
+                
+        let safeArea = superview.bounds.inset(by: superview.safeAreaInsets)
+        
+        var contentBounds = safeArea.inset(by: insets)
+        contentBounds.origin = .zero
+        contentBounds = contentBounds.inset(by: contentInsets)
         var (f1, f2) = contentBounds.divided(atDistance: image?.size.width ?? 0, from: .minXEdge)
 
         let textSize = textLabel.sizeThatFits(f2.size)
         f1.size.height = textSize.height
         f2.size = textSize
 
-        frame.size = CGSize(width: f1.size.width + f2.size.width + contentInsets.left + contentInsets.right,
+        bounds.size = CGSize(width: f1.size.width + f2.size.width + contentInsets.left + contentInsets.right,
                             height: f2.size.height + contentInsets.top + contentInsets.bottom)
-        center.x = superview?.center.x ?? 0
+        center = CGPoint(x: superview.center.x, y: safeArea.minY + (bounds.size.height / 2))
 
         imageView.frame = f1
         textLabel.frame = f2
@@ -214,7 +216,14 @@ public class FlashView: UIView {
     /// - Parameters:
     ///   - view: The view to show the flash message in.
     ///   - duration: The flash message duration.
-    public func show(in view: UIView, duration: TimeInterval = 2) {
+    public func show(in view: UIView? = nil, duration: TimeInterval = 2) {
+        var view = view
+        if view == nil {
+            let window = UIApplication.shared.windows.first(where: \.isKeyWindow)
+            view = window?.rootViewController?.view
+        }
+        guard let view = view else { return }
+        
         hideExistingViews(in: view)
 
         view.addSubview(self)

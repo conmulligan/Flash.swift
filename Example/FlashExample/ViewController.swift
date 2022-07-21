@@ -112,9 +112,10 @@ class ViewController: UIViewController {
     func showFlashAlert() {
         let flash = FlashView(
             text: NSLocalizedString("This is a flash message!", comment: ""),
-            image: UIImage(systemName: "info.circle.fill")
+            image: UIImage(systemName: "info.circle.fill"),
+            insets: UIEdgeInsets(top: 8, left: 15, bottom: 8, right: 15)
         )
-        flash.show(in: self.view)
+        flash.show()
     }
 
     func showFlashError() {
@@ -125,6 +126,6 @@ class ViewController: UIViewController {
         flash.backgroundColor = .systemRed
         flash.textLabel.textColor = .white
         flash.tintColor = .white.withAlphaComponent(0.6)
-        flash.show(in: self.view)
+        flash.show()
     }
 }
