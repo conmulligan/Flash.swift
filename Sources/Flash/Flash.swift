@@ -118,6 +118,11 @@ public class FlashView: UIView {
         didSet { updateImage(image) }
     }
 
+    /// The image-text spacing.
+    public var spacing: CGFloat = 8 {
+        didSet { setNeedsLayout() }
+    }
+
     /// The insets used to layout a flash view within its superview.
     public var insets = UIEdgeInsets(top: 30, left: 15, bottom: 15, right: 30) {
         didSet { setNeedsLayout() }
@@ -193,13 +198,14 @@ public class FlashView: UIView {
         let contentFrame = establishContentFrame(for: superview)
         let contentBounds = CGRect(origin: .zero, size: contentFrame.size).inset(by: contentInsets)
 
-        var (f1, f2) = contentBounds.divided(atDistance: image?.size.width ?? 0, from: .minXEdge)
+        let distance = (image != nil) ? image!.size.width + spacing : 0
+        var (f1, f2) = contentBounds.divided(atDistance: distance, from: .minXEdge)
 
         let textSize = textLabel.sizeThatFits(f2.size)
-        f1.size.height = textSize.height
         f2.size = textSize
+        f1.size = CGSize(width: image?.size.width ?? 0, height: f2.size.height)
 
-        bounds.size = CGSize(width: f1.size.width + f2.size.width + contentInsets.left + contentInsets.right,
+        bounds.size = CGSize(width: f1.size.width + spacing + f2.size.width + contentInsets.left + contentInsets.right,
                             height: f2.size.height + contentInsets.top + contentInsets.bottom)
         center = CGPoint(x: superview.center.x, y: contentFrame.minY + ((bounds.size.height) / 2))
 

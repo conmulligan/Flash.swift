@@ -126,6 +126,7 @@ class ViewController: UIViewController {
         flash.backgroundColor = .systemRed
         flash.textLabel.textColor = .white
         flash.tintColor = .white.withAlphaComponent(0.6)
+        flash.spacing = 15
         flash.show()
     }
 }
