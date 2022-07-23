@@ -119,7 +119,7 @@ public class FlashView: UIView {
     }
 
     /// The insets used to layout a flash view within its superview.
-    public var insets = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15) {
+    public var insets = UIEdgeInsets(top: 30, left: 15, bottom: 15, right: 30) {
         didSet { setNeedsLayout() }
     }
 
@@ -188,14 +188,11 @@ public class FlashView: UIView {
 
     override public func layoutSubviews() {
         super.layoutSubviews()
-
         guard let superview = superview else { return }
-                
-        let safeArea = superview.bounds.inset(by: superview.safeAreaInsets)
-        
-        var contentBounds = safeArea.inset(by: insets)
-        contentBounds.origin = .zero
-        contentBounds = contentBounds.inset(by: contentInsets)
+
+        let contentFrame = establishContentFrame(for: superview)
+        let contentBounds = CGRect(origin: .zero, size: contentFrame.size).inset(by: contentInsets)
+
         var (f1, f2) = contentBounds.divided(atDistance: image?.size.width ?? 0, from: .minXEdge)
 
         let textSize = textLabel.sizeThatFits(f2.size)
@@ -204,10 +201,55 @@ public class FlashView: UIView {
 
         bounds.size = CGSize(width: f1.size.width + f2.size.width + contentInsets.left + contentInsets.right,
                             height: f2.size.height + contentInsets.top + contentInsets.bottom)
-        center = CGPoint(x: superview.center.x, y: safeArea.minY + (bounds.size.height / 2))
+        center = CGPoint(x: superview.center.x, y: contentFrame.minY + ((bounds.size.height) / 2))
 
         imageView.frame = f1
         textLabel.frame = f2
+    }
+
+    /// Calculate the content frame within the supplied superview. This frame accounts for the superview's safe area insets, and the flash view's `insets` property.
+    /// - Parameter superview: The superview.
+    /// - Returns: The content frame.
+    private func establishContentFrame(for superview: UIView) -> CGRect {
+        let safeArea = superview.bounds.inset(by: superview.safeAreaInsets)
+        var contentFrame = safeArea.inset(by: insets)
+
+        contentFrame.origin.y += additionalOffset(for: superview)
+
+        return contentFrame
+    }
+
+    /// Calculate the additional vertical offset. This offset accounts for any `UINavigationBar` instance which may be present in the view hierarchy.
+    /// - Parameter superview: The superview.
+    /// - Returns: The additional content offset.
+    private func additionalOffset(for superview: UIView) -> CGFloat {
+        guard
+            let hitTest = superview.hitTest(CGPoint(x: 10, y: superview.safeAreaInsets.top + 5), with: nil)
+        else { return 0 }
+
+        if let navigationBar: UINavigationBar = firstAncestralView(in: hitTest) {
+            return navigationBar.frame.size.height
+        }
+
+        return 0
+    }
+
+    /// Walk the view hierachy to find if the supplied view, or one of its ancestors, is a view of type `V`.
+    /// - Parameter view: The view who's hierachy to walk back from.
+    /// - Returns: A `V` instance if found, otherwise `nil`.
+    private func firstAncestralView<V: UIView>(in view: UIView) -> V? {
+        var ancestralView: V?
+        var currentView: UIView? = view
+
+        while ancestralView == nil {
+            if currentView is V {
+                ancestralView = currentView as? V
+            } else {
+                currentView = currentView?.superview
+            }
+        }
+
+        return ancestralView
     }
 
     // MARK: - Flash
@@ -219,11 +261,10 @@ public class FlashView: UIView {
     public func show(in view: UIView? = nil, duration: TimeInterval = 2) {
         var view = view
         if view == nil {
-            let window = UIApplication.shared.windows.first(where: \.isKeyWindow)
-            view = window?.rootViewController?.view
+            view = UIApplication.shared.windows.first(where: \.isKeyWindow)
         }
         guard let view = view else { return }
-        
+
         hideExistingViews(in: view)
 
         view.addSubview(self)

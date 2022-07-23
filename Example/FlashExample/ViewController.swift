@@ -68,6 +68,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        title = NSLocalizedString("Flash Messages", comment: "")
         view.backgroundColor = .systemBackground
 
         view.addSubview(alertButton)
@@ -112,8 +113,7 @@ class ViewController: UIViewController {
     func showFlashAlert() {
         let flash = FlashView(
             text: NSLocalizedString("This is a flash message!", comment: ""),
-            image: UIImage(systemName: "info.circle.fill"),
-            insets: UIEdgeInsets(top: 8, left: 15, bottom: 8, right: 15)
+            image: UIImage(systemName: "info.circle.fill")
         )
         flash.show()
     }
