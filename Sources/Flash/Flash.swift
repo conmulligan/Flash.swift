@@ -205,15 +205,15 @@ public class FlashView: UIView {
         f2.size = textSize
         f1.size = CGSize(width: image?.size.width ?? 0, height: f2.size.height)
 
-        bounds.size = CGSize(width: f1.size.width + spacing + f2.size.width + contentInsets.left + contentInsets.right,
-                            height: f2.size.height + contentInsets.top + contentInsets.bottom)
+        bounds.size = CGSize(width: f2.maxX + contentInsets.right, height: f2.maxY + contentInsets.bottom)
         center = CGPoint(x: superview.center.x, y: contentFrame.minY + ((bounds.size.height) / 2))
 
         imageView.frame = f1
         textLabel.frame = f2
     }
 
-    /// Calculate the content frame within the supplied superview. This frame accounts for the superview's safe area insets, and the flash view's `insets` property.
+    /// Calculate the content frame within the supplied superview.
+    /// This frame accounts for the superview's safe area insets, and the flash view's `insets` property.
     /// - Parameter superview: The superview.
     /// - Returns: The content frame.
     private func establishContentFrame(for superview: UIView) -> CGRect {
@@ -225,7 +225,8 @@ public class FlashView: UIView {
         return contentFrame
     }
 
-    /// Calculate the additional vertical offset. This offset accounts for any `UINavigationBar` instance which may be present in the view hierarchy.
+    /// Calculate the additional vertical offset.
+    /// This offset accounts for any `UINavigationBar` instance which may be present in the view hierarchy.
     /// - Parameter superview: The superview.
     /// - Returns: The additional content offset.
     private func additionalOffset(for superview: UIView) -> CGFloat {
