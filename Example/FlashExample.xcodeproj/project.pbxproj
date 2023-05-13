@@ -16,6 +16,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E1BA58EE2A0C5F8D00EFB533 /* Flash */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Flash; path = ..; sourceTree = "<group>"; };
 		E1BC8F792879F5DA00CCFBAC /* FlashExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlashExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1BC8F7C2879F5DA00CCFBAC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E1BC8F7E2879F5DA00CCFBAC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -23,7 +24,6 @@
 		E1BC8F852879F5DB00CCFBAC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E1BC8F882879F5DB00CCFBAC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E1BC8F8A2879F5DB00CCFBAC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E1BC8F912879F65C00CCFBAC /* Flash */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Flash; path = ..; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,7 +72,7 @@
 		E1BC8F902879F65C00CCFBAC /* Packages */ = {
 			isa = PBXGroup;
 			children = (
-				E1BC8F912879F65C00CCFBAC /* Flash */,
+				E1BA58EE2A0C5F8D00EFB533 /* Flash */,
 			);
 			name = Packages;
 			sourceTree = "<group>";

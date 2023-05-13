@@ -24,6 +24,12 @@
 
 import UIKit
 
+/// The flash view alignment.
+public enum FlashAlignment {
+    case top
+    case bottom
+}
+
 /// A flash message animator.
 public protocol FlashAnimator {
     /// Animation completion handler.
@@ -53,15 +59,20 @@ public struct FadeAnimator: FlashAnimator {
     private let timingParameters = UISpringTimingParameters(dampingRatio: 0.42,
                                                             initialVelocity: CGVector(dx: 1.0, dy: 0.2))
 
+    private let translateAmount: CGFloat = 16
+
+    private let scaleCoefficient: CGFloat = 0.95
+
     /// Initialize with the supplied animation duration.
     /// - Parameter duration: The animation duration.
-    public init(duration: TimeInterval) {
+    public init(duration: TimeInterval = 0.33) {
         self.duration = duration
     }
 
-    private func scaleAndOffset(t: CGAffineTransform) -> CGAffineTransform {
-        var transform = t.translatedBy(x: 0, y: -15)
-        transform = transform.scaledBy(x: 0.95, y: 0.95)
+    private func scaleAndOffset(t: CGAffineTransform, alignment: FlashAlignment) -> CGAffineTransform {
+        let orientation: CGFloat = alignment == .bottom ? 1 : -1
+        var transform = t.translatedBy(x: 0, y: translateAmount * orientation)
+        transform = transform.scaledBy(x: scaleCoefficient, y: scaleCoefficient)
         return transform
     }
 
@@ -69,7 +80,7 @@ public struct FadeAnimator: FlashAnimator {
 
     public func animateIn(_ flashView: FlashView, completion: @escaping CompletionHandler) {
         flashView.alpha = 0
-        flashView.transform = scaleAndOffset(t: flashView.transform)
+        flashView.transform = scaleAndOffset(t: flashView.transform, alignment: flashView.alignment)
 
         let animator = UIViewPropertyAnimator(duration: duration, timingParameters: timingParameters)
 
@@ -93,7 +104,7 @@ public struct FadeAnimator: FlashAnimator {
             flashView.alpha = 0
         }
         animator.addAnimations {
-            flashView.transform = scaleAndOffset(t: flashView.transform)
+            flashView.transform = scaleAndOffset(t: flashView.transform, alignment: flashView.alignment)
         }
         animator.addCompletion { _ in
             completion()
@@ -118,13 +129,18 @@ public class FlashView: UIView {
         didSet { updateImage(image) }
     }
 
+    /// The alignment.
+    public var alignment: FlashAlignment = .top {
+        didSet { setNeedsLayout() }
+    }
+
     /// The image-text spacing.
     public var spacing: CGFloat = 8 {
         didSet { setNeedsLayout() }
     }
 
     /// The insets used to layout a flash view within its superview.
-    public var insets = UIEdgeInsets(top: 30, left: 15, bottom: 15, right: 30) {
+    public var insets = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16) {
         didSet { setNeedsLayout() }
     }
 
@@ -162,11 +178,13 @@ public class FlashView: UIView {
     public init(text: String,
                 image: UIImage? = nil,
                 insets: UIEdgeInsets? = nil,
+                alignment: FlashAlignment? = nil,
                 animator: FlashAnimator? = nil ) {
         self.text = text
         self.image = image
         self.insets = insets ?? self.insets
-        self.animator = animator ?? FadeAnimator(duration: 0.35)
+        self.alignment = alignment ?? self.alignment
+        self.animator = animator ?? FadeAnimator()
         super.init(frame: .zero)
 
         backgroundColor = .systemGray5
@@ -195,6 +213,8 @@ public class FlashView: UIView {
         super.layoutSubviews()
         guard let superview = superview else { return }
 
+        // Layout subviews.
+
         let contentFrame = establishContentFrame(for: superview)
         let contentBounds = CGRect(origin: .zero, size: contentFrame.size).inset(by: contentInsets)
 
@@ -205,11 +225,22 @@ public class FlashView: UIView {
         f2.size = textSize
         f1.size = CGSize(width: image?.size.width ?? 0, height: f2.size.height)
 
-        bounds.size = CGSize(width: f2.maxX + contentInsets.right, height: f2.maxY + contentInsets.bottom)
-        center = CGPoint(x: superview.center.x, y: contentFrame.minY + ((bounds.size.height) / 2))
-
         imageView.frame = f1
         textLabel.frame = f2
+
+        // Layout self.
+
+        bounds.size = CGSize(
+            width: (f2.maxX + contentInsets.right).rounded(),
+            height: (f2.maxY + contentInsets.bottom).rounded()
+        )
+
+        switch alignment {
+        case .top:
+            center = CGPoint(x: superview.center.x, y: contentFrame.minY + (bounds.size.height / 2))
+        case .bottom:
+            center = CGPoint(x: superview.center.x, y: contentFrame.maxY - (bounds.size.height / 2))
+        }
     }
 
     /// Calculate the content frame within the supplied superview.
@@ -218,27 +249,30 @@ public class FlashView: UIView {
     /// - Returns: The content frame.
     private func establishContentFrame(for superview: UIView) -> CGRect {
         let safeArea = superview.bounds.inset(by: superview.safeAreaInsets)
-        var contentFrame = safeArea.inset(by: insets)
-
-        contentFrame.origin.y += additionalOffset(for: superview)
-
-        return contentFrame
+        return safeArea
+            .inset(by: additionalInsets(for: superview))
+            .inset(by: insets)
     }
 
-    /// Calculate the additional vertical offset.
-    /// This offset accounts for any `UINavigationBar` instance which may be present in the view hierarchy.
+    /// Calculates the additional insets needed to layout the flash view between ancestral navigation bars and tab bars.
     /// - Parameter superview: The superview.
-    /// - Returns: The additional content offset.
-    private func additionalOffset(for superview: UIView) -> CGFloat {
-        guard
-            let hitTest = superview.hitTest(CGPoint(x: 10, y: superview.safeAreaInsets.top + 5), with: nil)
-        else { return 0 }
+    /// - Returns: The additional edge insets.
+    private func additionalInsets(for superview: UIView) -> UIEdgeInsets {
+        var additionalInsets = UIEdgeInsets.zero
 
-        if let navigationBar: UINavigationBar = firstAncestralView(in: hitTest) {
-            return navigationBar.frame.size.height
+        let topPoint = CGPoint(x: 5, y: superview.safeAreaInsets.top + 5)
+        if let hitTest = superview.hitTest(topPoint, with: nil),
+           let navigationBar: UINavigationBar = firstAncestralView(in: hitTest) {
+            additionalInsets.top = navigationBar.frame.maxY - superview.safeAreaInsets.top
         }
 
-        return 0
+        let bottomPoint = CGPoint(x: 5, y: superview.frame.maxY - superview.safeAreaInsets.bottom - 5)
+        if let hitTest = superview.hitTest(bottomPoint, with: nil),
+           let tabBar: UITabBar = firstAncestralView(in: hitTest) {
+            additionalInsets.bottom = superview.frame.maxY - tabBar.frame.minY - superview.safeAreaInsets.bottom
+        }
+
+        return additionalInsets
     }
 
     /// Walk the view hierachy to find if the supplied view, or one of its ancestors, is a view of type `V`.

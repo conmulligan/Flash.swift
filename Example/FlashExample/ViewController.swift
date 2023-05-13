@@ -25,31 +25,44 @@
 import UIKit
 import Flash
 
+class RoundRectButton: UIButton {
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+
+        autoresizingMask = [.flexibleLeftMargin, .flexibleRightMargin]
+        backgroundColor = .systemBlue
+        setTitleColor(.white, for: .normal)
+        titleLabel?.font = .preferredFont(forTextStyle: .body)
+        titleLabel?.adjustsFontForContentSizeCategory = true
+        layer.cornerRadius = 10
+        layer.cornerCurve = .continuous
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
 class ViewController: UIViewController {
 
     let alertButton: UIButton = {
-        let button = UIButton(type: .system)
+        let button = RoundRectButton(frame: .zero)
         button.setTitle(NSLocalizedString("Show Alert", comment: ""), for: .normal)
-        button.autoresizingMask = [.flexibleLeftMargin, .flexibleRightMargin]
-        button.backgroundColor = .systemBlue
-        button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = .preferredFont(forTextStyle: .body)
-        button.titleLabel?.adjustsFontForContentSizeCategory = true
-        button.layer.cornerRadius = 10
-        button.layer.cornerCurve = .continuous
         return button
     }()
 
     let errorButton: UIButton = {
-        let button = UIButton(type: .system)
+        let button = RoundRectButton(type: .system)
         button.setTitle(NSLocalizedString("Show Error", comment: ""), for: .normal)
-        button.autoresizingMask = [.flexibleLeftMargin, .flexibleRightMargin]
         button.backgroundColor = .systemRed
-        button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = .preferredFont(forTextStyle: .body)
-        button.titleLabel?.adjustsFontForContentSizeCategory = true
-        button.layer.cornerRadius = 10
-        button.layer.cornerCurve = .continuous
+        return button
+    }()
+
+    let alignmentButton: UIButton = {
+        let button = RoundRectButton(type: .system)
+        button.setTitle(NSLocalizedString("Show Toast", comment: ""), for: .normal)
+        button.backgroundColor = .systemPink
         return button
     }()
 
@@ -71,8 +84,7 @@ class ViewController: UIViewController {
         title = NSLocalizedString("Flash Messages", comment: "")
         view.backgroundColor = .systemBackground
 
-        view.addSubview(alertButton)
-        view.addSubview(errorButton)
+        [alertButton, errorButton, alignmentButton].forEach { view.addSubview($0) }
 
         alertButton.addAction(UIAction { [unowned self] _ in
             self.showFlashAlert()
@@ -81,6 +93,10 @@ class ViewController: UIViewController {
         errorButton.addAction(UIAction { [unowned self] _ in
             self.showFlashError()
         }, for: .touchUpInside)
+
+        alignmentButton.addAction(UIAction { [unowned self] _ in
+            self.showBottomAlignedAlert()
+        }, for: .touchUpInside)
     }
 
     override func viewDidLayoutSubviews() {
@@ -88,6 +104,7 @@ class ViewController: UIViewController {
 
         alertButton.sizeToFit()
         errorButton.sizeToFit()
+        alignmentButton.sizeToFit()
 
         let spacing: CGFloat = 15
         let margins = view.layoutMargins
@@ -108,7 +125,17 @@ class ViewController: UIViewController {
             width: safeArea.size.width,
             height: errorHeight
         )
+
+        let alignHeight = alignmentButton.frame.size.height + 10
+        alignmentButton.frame = CGRect(
+            x: margins.left,
+            y: errorButton.frame.maxY + spacing,
+            width: safeArea.size.width,
+            height: alignHeight
+        )
     }
+
+    // MARK: - Actions
 
     func showFlashAlert() {
         let flash = FlashView(
@@ -126,6 +153,18 @@ class ViewController: UIViewController {
         flash.textLabel.textColor = .white
         flash.tintColor = .white.withAlphaComponent(0.6)
         flash.spacing = 5
+        flash.show()
+    }
+
+    func showBottomAlignedAlert() {
+        let flash = FlashView(
+            text: NSLocalizedString("This is a bottom aligned alert.", comment: ""),
+            image: UIImage(systemName: "align.vertical.top.fill")
+        )
+        flash.backgroundColor = .systemPink
+        flash.textLabel.textColor = .white
+        flash.tintColor = .white.withAlphaComponent(0.6)
+        flash.alignment = .bottom
         flash.show()
     }
 }

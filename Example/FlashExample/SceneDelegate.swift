@@ -35,9 +35,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
 
         let viewController = ViewController()
+        viewController.tabBarItem.image = UIImage(systemName: "star.fill")
+
+        let tabBarController = UITabBarController()
+
         let navigationController = UINavigationController(rootViewController: viewController)
+
+        tabBarController.viewControllers = [navigationController]
         window = UIWindow(windowScene: windowScene)
-        window?.rootViewController = navigationController
+        window?.rootViewController = tabBarController
         window?.makeKeyAndVisible()
     }
 
