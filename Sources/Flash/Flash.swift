@@ -65,6 +65,9 @@ public class FlashView: UIView {
         didSet { setNeedsLayout() }
     }
 
+    /// Plays haptic feedback when appearing.
+    public var playsHaptics = true
+    
     /// The animator.
     public let animator: FlashAnimator
 
@@ -218,6 +221,12 @@ public class FlashView: UIView {
         views.forEach { $0.hide() }
     }
 
+    /// Plays a light impact haptic feedback.
+    private func playHaptics() {
+        let feedbackGenerator = UIImpactFeedbackGenerator(style: .light)
+        feedbackGenerator.impactOccurred()
+    }
+    
     // MARK: - State
 
     private func updateText(_ text: String) {
@@ -259,6 +268,10 @@ extension FlashView {
 
         animator.animateIn(self) {
             self.addTimer(duration: duration)
+        }
+        
+        if playsHaptics {
+            playHaptics()
         }
     }
 

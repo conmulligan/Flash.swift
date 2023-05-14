@@ -165,6 +165,7 @@ class ViewController: UIViewController {
         flash.textLabel.textColor = .white
         flash.tintColor = .white.withAlphaComponent(0.6)
         flash.alignment = .bottom
+        flash.playsHaptics = false
         flash.show()
     }
 }
