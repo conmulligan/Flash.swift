@@ -24,98 +24,14 @@
 
 import UIKit
 
-/// The flash view alignment.
-public enum FlashAlignment {
-    case top
-    case bottom
-}
-
-/// A flash message animator.
-public protocol FlashAnimator {
-    /// Animation completion handler.
-    typealias CompletionHandler = () -> Void
-
-    /// The animation duration.
-    var duration: TimeInterval { get }
-
-    /// Animate in the flash view.
-    /// - Parameters:
-    ///   - flashView: The flash view to animate in.
-    ///   - completion: The completion handler. This must be called when the animation has finished.
-    func animateIn(_ flashView: FlashView, completion: @escaping CompletionHandler)
-
-    /// Animate out the flash view.
-    /// - Parameters:
-    ///   - flashView: The flash view to animate out.
-    ///   - completion: The completion handler. This must be called when the animation has finished.
-    func animationOut(_ flashView: FlashView, completion: @escaping CompletionHandler)
-}
-
-/// A flash message animator that fades in and out.
-public struct FadeAnimator: FlashAnimator {
-
-    public private(set) var duration: TimeInterval
-
-    private let timingParameters = UISpringTimingParameters(dampingRatio: 0.5,
-                                                            initialVelocity: CGVector(dx: 1.0, dy: 0.2))
-
-    private let translateAmount: CGFloat = 16
-
-    private let scaleCoefficient: CGFloat = 0.95
-
-    /// Initialize with the supplied animation duration.
-    /// - Parameter duration: The animation duration.
-    public init(duration: TimeInterval = 0.33) {
-        self.duration = duration
-    }
-
-    private func scaleAndOffset(t: CGAffineTransform, alignment: FlashAlignment) -> CGAffineTransform {
-        let orientation: CGFloat = alignment == .bottom ? 1 : -1
-        var transform = t.translatedBy(x: 0, y: translateAmount * orientation)
-        transform = transform.scaledBy(x: scaleCoefficient, y: scaleCoefficient)
-        return transform
-    }
-
-    // MARK: - FlashAnimator Conformance
-
-    public func animateIn(_ flashView: FlashView, completion: @escaping CompletionHandler) {
-        flashView.alpha = 0
-        flashView.transform = scaleAndOffset(t: flashView.transform, alignment: flashView.alignment)
-
-        let animator = UIViewPropertyAnimator(duration: duration, timingParameters: timingParameters)
-
-        animator.addAnimations {
-            flashView.alpha = 1
-        }
-        animator.addAnimations {
-            flashView.transform = .identity
-        }
-        animator.addCompletion { _ in
-            completion()
-        }
-
-        animator.startAnimation()
-    }
-
-    public func animationOut(_ flashView: FlashView, completion: @escaping CompletionHandler) {
-        let animator = UIViewPropertyAnimator(duration: duration, curve: .easeInOut)
-
-        animator.addAnimations {
-            flashView.alpha = 0
-        }
-        animator.addAnimations {
-            flashView.transform = scaleAndOffset(t: flashView.transform, alignment: flashView.alignment)
-        }
-        animator.addCompletion { _ in
-            completion()
-        }
-
-        animator.startAnimation()
-    }
-}
-
 /// A flash message view.
 public class FlashView: UIView {
+
+    /// The flash view alignment.
+    public enum Alignment {
+        case top
+        case bottom
+    }
 
     // MARK: - Properties
 
@@ -130,7 +46,7 @@ public class FlashView: UIView {
     }
 
     /// The alignment.
-    public var alignment: FlashAlignment = .top {
+    public var alignment: Alignment = .top {
         didSet { setNeedsLayout() }
     }
 
@@ -178,7 +94,7 @@ public class FlashView: UIView {
     public init(text: String,
                 image: UIImage? = nil,
                 insets: UIEdgeInsets? = nil,
-                alignment: FlashAlignment? = nil,
+                alignment: Alignment? = nil,
                 animator: FlashAnimator? = nil ) {
         self.text = text
         self.image = image
@@ -243,6 +159,8 @@ public class FlashView: UIView {
         }
     }
 
+    // MARK: - Layout
+    
     /// Calculate the content frame within the supplied superview.
     /// This frame accounts for the superview's safe area insets, and the flash view's `insets` property.
     /// - Parameter superview: The superview.
@@ -293,7 +211,35 @@ public class FlashView: UIView {
         return ancestralView
     }
 
-    // MARK: - Flash
+    /// Hides all existing flash messages in the supplied view.
+    /// - Parameter view: The view.
+    private func hideExistingViews(in view: UIView) {
+        let views = view.subviews.compactMap { $0 as? FlashView }
+        views.forEach { $0.hide() }
+    }
+
+    // MARK: - State
+
+    private func updateText(_ text: String) {
+        textLabel.text = text
+    }
+
+    private func updateImage(_ image: UIImage?) {
+        imageView.image = image
+    }
+
+    private func addTimer(duration: TimeInterval) {
+        guard timer == nil else { return }
+
+        timer = Timer.scheduledTimer(withTimeInterval: duration, repeats: false) { _ in
+            self.hide()
+        }
+    }
+}
+
+extension FlashView {
+    
+    // MARK: - Presentation
 
     /// Show the flash message in the supplised view.
     /// - Parameters:
@@ -326,28 +272,4 @@ public class FlashView: UIView {
         }
     }
 
-    /// Hides all existing flash messages in the supplied view.
-    /// - Parameter view: The view.
-    private func hideExistingViews(in view: UIView) {
-        let views = view.subviews.compactMap { $0 as? FlashView }
-        views.forEach { $0.hide() }
-    }
-
-    // MARK: - State
-
-    private func updateText(_ text: String) {
-        textLabel.text = text
-    }
-
-    private func updateImage(_ image: UIImage?) {
-        imageView.image = image
-    }
-
-    private func addTimer(duration: TimeInterval) {
-        guard timer == nil else { return }
-
-        timer = Timer.scheduledTimer(withTimeInterval: duration, repeats: false) { _ in
-            self.hide()
-        }
-    }
 }
