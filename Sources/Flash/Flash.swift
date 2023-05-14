@@ -56,7 +56,7 @@ public struct FadeAnimator: FlashAnimator {
 
     public private(set) var duration: TimeInterval
 
-    private let timingParameters = UISpringTimingParameters(dampingRatio: 0.42,
+    private let timingParameters = UISpringTimingParameters(dampingRatio: 0.5,
                                                             initialVelocity: CGVector(dx: 1.0, dy: 0.2))
 
     private let translateAmount: CGFloat = 16
