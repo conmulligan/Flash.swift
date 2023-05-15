@@ -7,9 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E1BA58F02A11615000EFB533 /* FlashExampleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BA58EF2A11615000EFB533 /* FlashExampleView.swift */; };
+		E1BA58F22A116A4D00EFB533 /* EdgeInsetsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BA58F12A116A4D00EFB533 /* EdgeInsetsView.swift */; };
+		E1BA58F42A116FFE00EFB533 /* EdgeInsetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BA58F32A116FFE00EFB533 /* EdgeInsetView.swift */; };
+		E1BA58F62A11A0C400EFB533 /* SymbolPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BA58F52A11A0C400EFB533 /* SymbolPicker.swift */; };
 		E1BC8F7D2879F5DA00CCFBAC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BC8F7C2879F5DA00CCFBAC /* AppDelegate.swift */; };
 		E1BC8F7F2879F5DA00CCFBAC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BC8F7E2879F5DA00CCFBAC /* SceneDelegate.swift */; };
-		E1BC8F812879F5DA00CCFBAC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BC8F802879F5DA00CCFBAC /* ViewController.swift */; };
 		E1BC8F862879F5DB00CCFBAC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E1BC8F852879F5DB00CCFBAC /* Assets.xcassets */; };
 		E1BC8F892879F5DB00CCFBAC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E1BC8F872879F5DB00CCFBAC /* LaunchScreen.storyboard */; };
 		E1BC8F942879FA0900CCFBAC /* Flash in Frameworks */ = {isa = PBXBuildFile; productRef = E1BC8F932879FA0900CCFBAC /* Flash */; };
@@ -17,10 +20,13 @@
 
 /* Begin PBXFileReference section */
 		E1BA58EE2A0C5F8D00EFB533 /* Flash */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Flash; path = ..; sourceTree = "<group>"; };
+		E1BA58EF2A11615000EFB533 /* FlashExampleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashExampleView.swift; sourceTree = "<group>"; };
+		E1BA58F12A116A4D00EFB533 /* EdgeInsetsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EdgeInsetsView.swift; sourceTree = "<group>"; };
+		E1BA58F32A116FFE00EFB533 /* EdgeInsetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EdgeInsetView.swift; sourceTree = "<group>"; };
+		E1BA58F52A11A0C400EFB533 /* SymbolPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbolPicker.swift; sourceTree = "<group>"; };
 		E1BC8F792879F5DA00CCFBAC /* FlashExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlashExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1BC8F7C2879F5DA00CCFBAC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E1BC8F7E2879F5DA00CCFBAC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		E1BC8F802879F5DA00CCFBAC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		E1BC8F852879F5DB00CCFBAC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E1BC8F882879F5DB00CCFBAC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E1BC8F8A2879F5DB00CCFBAC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -61,7 +67,10 @@
 			children = (
 				E1BC8F7C2879F5DA00CCFBAC /* AppDelegate.swift */,
 				E1BC8F7E2879F5DA00CCFBAC /* SceneDelegate.swift */,
-				E1BC8F802879F5DA00CCFBAC /* ViewController.swift */,
+				E1BA58F52A11A0C400EFB533 /* SymbolPicker.swift */,
+				E1BA58F32A116FFE00EFB533 /* EdgeInsetView.swift */,
+				E1BA58F12A116A4D00EFB533 /* EdgeInsetsView.swift */,
+				E1BA58EF2A11615000EFB533 /* FlashExampleView.swift */,
 				E1BC8F852879F5DB00CCFBAC /* Assets.xcassets */,
 				E1BC8F872879F5DB00CCFBAC /* LaunchScreen.storyboard */,
 				E1BC8F8A2879F5DB00CCFBAC /* Info.plist */,
@@ -157,8 +166,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E1BC8F812879F5DA00CCFBAC /* ViewController.swift in Sources */,
+				E1BA58F62A11A0C400EFB533 /* SymbolPicker.swift in Sources */,
+				E1BA58F42A116FFE00EFB533 /* EdgeInsetView.swift in Sources */,
 				E1BC8F7D2879F5DA00CCFBAC /* AppDelegate.swift in Sources */,
+				E1BA58F22A116A4D00EFB533 /* EdgeInsetsView.swift in Sources */,
+				E1BA58F02A11615000EFB533 /* FlashExampleView.swift in Sources */,
 				E1BC8F7F2879F5DA00CCFBAC /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -305,6 +317,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -332,6 +345,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

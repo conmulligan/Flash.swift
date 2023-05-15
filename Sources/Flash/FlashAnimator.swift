@@ -75,7 +75,7 @@ public struct FadeAnimator: FlashAnimator {
 
     public func animateIn(_ flashView: FlashView, completion: @escaping CompletionHandler) {
         flashView.alpha = 0
-        flashView.transform = scaleAndOffset(t: flashView.transform, alignment: flashView.alignment)
+        flashView.transform = scaleAndOffset(t: flashView.transform, alignment: flashView.configuration.alignment)
 
         let animator = UIViewPropertyAnimator(duration: duration, timingParameters: timingParameters)
 
@@ -99,7 +99,7 @@ public struct FadeAnimator: FlashAnimator {
             flashView.alpha = 0
         }
         animator.addAnimations {
-            flashView.transform = scaleAndOffset(t: flashView.transform, alignment: flashView.alignment)
+            flashView.transform = scaleAndOffset(t: flashView.transform, alignment: flashView.configuration.alignment)
         }
         animator.addCompletion { _ in
             completion()

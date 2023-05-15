@@ -23,6 +23,7 @@
 //  SOFTWARE.
 
 import UIKit
+import SwiftUI
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -34,8 +35,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
 
-        let viewController = ViewController()
+        let viewController = UIHostingController(rootView: FlashExampleView())
         viewController.tabBarItem.image = UIImage(systemName: "star.fill")
+        viewController.tabBarItem.title = NSLocalizedString("Flash Example", comment: "")
 
         let tabBarController = UITabBarController()
 

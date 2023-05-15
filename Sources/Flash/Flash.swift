@@ -24,14 +24,41 @@
 
 import UIKit
 
-/// A flash message view.
-public class FlashView: UIView {
-
+extension FlashView {
     /// The flash view alignment.
     public enum Alignment {
         case top
         case bottom
     }
+
+    /// The flash configuration.
+    public struct Configuration {
+        public var alignment: Alignment
+        public var spacing: CGFloat
+        public var insets: UIEdgeInsets
+        public var contentInsets: UIEdgeInsets
+        public var cornerRadius: CGFloat
+        public var backgroundColor: UIColor
+        public var foregroundColor: UIColor
+        public var playsHaptics: Bool
+        public var animator: FlashAnimator
+        
+        public static var `default`: Configuration {
+            .init(alignment: .top,
+                  spacing: 8,
+                  insets: .init(top: 16, left: 16, bottom: 16, right: 16),
+                  contentInsets: .init(top: 8, left: 12, bottom: 8, right: 12),
+                  cornerRadius: 10,
+                  backgroundColor: .systemGray5,
+                  foregroundColor: .black,
+                  playsHaptics: true,
+                  animator: FadeAnimator())
+        }
+    }
+}
+
+/// A flash message view.
+public class FlashView: UIView {
 
     // MARK: - Properties
 
@@ -45,44 +72,31 @@ public class FlashView: UIView {
         didSet { updateImage(image) }
     }
 
-    /// The alignment.
-    public var alignment: Alignment = .top {
-        didSet { setNeedsLayout() }
+    /// The flash configuration.
+    public var configuration: Configuration {
+        didSet { updateConfiguration(configuration) }
     }
-
-    /// The image-text spacing.
-    public var spacing: CGFloat = 8 {
-        didSet { setNeedsLayout() }
-    }
-
-    /// The insets used to layout a flash view within its superview.
-    public var insets = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16) {
-        didSet { setNeedsLayout() }
-    }
-
-    /// The content insets.
-    public var contentInsets = UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 12) {
-        didSet { setNeedsLayout() }
-    }
-
-    /// Plays haptic feedback when appearing.
-    public var playsHaptics = true
     
-    /// The animator.
-    public let animator: FlashAnimator
-
     /// The timer.
     private var timer: Timer?
 
+    /// The background view.
+    private lazy var backgroundView: BackgroundView = {
+        let backgroundView = BackgroundView(frame: bounds)
+        backgroundView.fillColor = .systemGray5
+        backgroundView.cornerRadius = 10
+        return backgroundView
+    }()
+
     /// The toast's image view.
-    public private(set) lazy var imageView: UIImageView = {
+    private lazy var imageView: UIImageView = {
         let imageView = UIImageView(frame: .zero)
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
 
     /// The toast's text label.
-    public private(set) lazy var textLabel: UILabel = {
+    private lazy var textLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.textColor = .label
         label.font = .preferredFont(forTextStyle: .callout)
@@ -96,24 +110,17 @@ public class FlashView: UIView {
 
     public init(text: String,
                 image: UIImage? = nil,
-                insets: UIEdgeInsets? = nil,
-                alignment: Alignment? = nil,
-                animator: FlashAnimator? = nil ) {
+                configuration: Configuration? = nil) {
         self.text = text
         self.image = image
-        self.insets = insets ?? self.insets
-        self.alignment = alignment ?? self.alignment
-        self.animator = animator ?? FadeAnimator()
+        self.configuration = configuration ?? .default
         super.init(frame: .zero)
 
-        backgroundColor = .systemGray5
-        layer.cornerRadius = 10
-        layer.cornerCurve = .continuous
-
-        [imageView, textLabel].forEach { addSubview($0) }
+        [backgroundView, imageView, textLabel].forEach { addSubview($0) }
 
         updateText(text)
         updateImage(image)
+        updateConfiguration(self.configuration)
     }
 
     required init?(coder: NSCoder) {
@@ -135,9 +142,9 @@ public class FlashView: UIView {
         // Layout subviews.
 
         let contentFrame = establishContentFrame(for: superview)
-        let contentBounds = CGRect(origin: .zero, size: contentFrame.size).inset(by: contentInsets)
+        let contentBounds = CGRect(origin: .zero, size: contentFrame.size).inset(by: configuration.contentInsets)
 
-        let distance = (image != nil) ? image!.size.width + spacing : 0
+        let distance = (image != nil) ? image!.size.width + configuration.spacing : 0
         var (f1, f2) = contentBounds.divided(atDistance: distance, from: .minXEdge)
 
         let textSize = textLabel.sizeThatFits(f2.size)
@@ -150,11 +157,13 @@ public class FlashView: UIView {
         // Layout self.
 
         bounds.size = CGSize(
-            width: (f2.maxX + contentInsets.right).rounded(),
-            height: (f2.maxY + contentInsets.bottom).rounded()
+            width: (f2.maxX + configuration.contentInsets.right).rounded(),
+            height: (f2.maxY + configuration.contentInsets.bottom).rounded()
         )
 
-        switch alignment {
+        backgroundView.frame = bounds
+
+        switch configuration.alignment {
         case .top:
             center = CGPoint(x: superview.center.x, y: contentFrame.minY + (bounds.size.height / 2))
         case .bottom:
@@ -172,7 +181,7 @@ public class FlashView: UIView {
         let safeArea = superview.bounds.inset(by: superview.safeAreaInsets)
         return safeArea
             .inset(by: additionalInsets(for: superview))
-            .inset(by: insets)
+            .inset(by: configuration.insets)
     }
 
     /// Calculates the additional insets needed to layout the flash view between ancestral navigation bars and tab bars.
@@ -237,6 +246,14 @@ public class FlashView: UIView {
         imageView.image = image
     }
 
+    private func updateConfiguration(_ configuration: Configuration) {
+        backgroundView.fillColor = configuration.backgroundColor
+        backgroundView.cornerRadius = configuration.cornerRadius
+        textLabel.textColor = configuration.foregroundColor
+        imageView.tintColor = configuration.foregroundColor
+        layoutSubviews()
+    }
+    
     private func addTimer(duration: TimeInterval) {
         guard timer == nil else { return }
 
@@ -266,11 +283,11 @@ extension FlashView {
         view.addSubview(self)
         setNeedsLayout()
 
-        animator.animateIn(self) {
+        configuration.animator.animateIn(self) {
             self.addTimer(duration: duration)
         }
         
-        if playsHaptics {
+        if configuration.playsHaptics {
             playHaptics()
         }
     }
@@ -280,9 +297,8 @@ extension FlashView {
         timer?.invalidate()
         timer = nil
 
-        animator.animationOut(self) {
+        configuration.animator.animationOut(self) {
             self.removeFromSuperview()
         }
     }
-
 }
