@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E12070B52A143650004C9D2B /* VectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12070B42A143650004C9D2B /* VectorView.swift */; };
+		E12070B72A143BDD004C9D2B /* NumberFormatter+Formatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12070B62A143BDD004C9D2B /* NumberFormatter+Formatters.swift */; };
 		E1BA58F02A11615000EFB533 /* FlashExampleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BA58EF2A11615000EFB533 /* FlashExampleView.swift */; };
 		E1BA58F22A116A4D00EFB533 /* EdgeInsetsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BA58F12A116A4D00EFB533 /* EdgeInsetsView.swift */; };
 		E1BA58F42A116FFE00EFB533 /* EdgeInsetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BA58F32A116FFE00EFB533 /* EdgeInsetView.swift */; };
@@ -19,6 +21,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E12070B42A143650004C9D2B /* VectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VectorView.swift; sourceTree = "<group>"; };
+		E12070B62A143BDD004C9D2B /* NumberFormatter+Formatters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NumberFormatter+Formatters.swift"; sourceTree = "<group>"; };
 		E1BA58EE2A0C5F8D00EFB533 /* Flash */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Flash; path = ..; sourceTree = "<group>"; };
 		E1BA58EF2A11615000EFB533 /* FlashExampleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashExampleView.swift; sourceTree = "<group>"; };
 		E1BA58F12A116A4D00EFB533 /* EdgeInsetsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EdgeInsetsView.swift; sourceTree = "<group>"; };
@@ -44,6 +48,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E12070B82A144027004C9D2B /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				E12070B62A143BDD004C9D2B /* NumberFormatter+Formatters.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		E1BA58F72A12F20A00EFB533 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E1BA58F52A11A0C400EFB533 /* SymbolPicker.swift */,
+				E1BA58F32A116FFE00EFB533 /* EdgeInsetView.swift */,
+				E1BA58F12A116A4D00EFB533 /* EdgeInsetsView.swift */,
+				E12070B42A143650004C9D2B /* VectorView.swift */,
+				E1BA58EF2A11615000EFB533 /* FlashExampleView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		E1BC8F702879F5DA00CCFBAC = {
 			isa = PBXGroup;
 			children = (
@@ -65,12 +89,10 @@
 		E1BC8F7B2879F5DA00CCFBAC /* FlashExample */ = {
 			isa = PBXGroup;
 			children = (
+				E12070B82A144027004C9D2B /* Extensions */,
+				E1BA58F72A12F20A00EFB533 /* Views */,
 				E1BC8F7C2879F5DA00CCFBAC /* AppDelegate.swift */,
 				E1BC8F7E2879F5DA00CCFBAC /* SceneDelegate.swift */,
-				E1BA58F52A11A0C400EFB533 /* SymbolPicker.swift */,
-				E1BA58F32A116FFE00EFB533 /* EdgeInsetView.swift */,
-				E1BA58F12A116A4D00EFB533 /* EdgeInsetsView.swift */,
-				E1BA58EF2A11615000EFB533 /* FlashExampleView.swift */,
 				E1BC8F852879F5DB00CCFBAC /* Assets.xcassets */,
 				E1BC8F872879F5DB00CCFBAC /* LaunchScreen.storyboard */,
 				E1BC8F8A2879F5DB00CCFBAC /* Info.plist */,
@@ -170,6 +192,8 @@
 				E1BA58F42A116FFE00EFB533 /* EdgeInsetView.swift in Sources */,
 				E1BC8F7D2879F5DA00CCFBAC /* AppDelegate.swift in Sources */,
 				E1BA58F22A116A4D00EFB533 /* EdgeInsetsView.swift in Sources */,
+				E12070B72A143BDD004C9D2B /* NumberFormatter+Formatters.swift in Sources */,
+				E12070B52A143650004C9D2B /* VectorView.swift in Sources */,
 				E1BA58F02A11615000EFB533 /* FlashExampleView.swift in Sources */,
 				E1BC8F7F2879F5DA00CCFBAC /* SceneDelegate.swift in Sources */,
 			);

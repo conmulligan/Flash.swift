@@ -30,9 +30,6 @@ public protocol FlashAnimator {
     /// Animation completion handler.
     typealias CompletionHandler = () -> Void
 
-    /// The animation duration.
-    var duration: TimeInterval { get }
-
     /// Animate in the flash view.
     /// - Parameters:
     ///   - flashView: The flash view to animate in.
@@ -46,28 +43,46 @@ public protocol FlashAnimator {
     func animationOut(_ flashView: FlashView, completion: @escaping CompletionHandler)
 }
 
+extension FadeAnimator {
+    
+    /// The fade animator configuration.
+    public struct Configuration {
+        public var duration: TimeInterval
+        public var dampingRatio: CGFloat
+        public var initialVelocity: CGVector
+        public var translateAmount: CGFloat
+        public var scaleCoefficient: CGFloat
+        
+        public static var `default`: Configuration {
+            .init(duration: 0.33,
+                  dampingRatio: 0.5,
+                  initialVelocity: CGVector(dx: 1.0, dy: 0.2),
+                  translateAmount: 16,
+                  scaleCoefficient: 0.95
+            )
+        }
+    }
+}
+
 /// A flash message animator that fades in and out.
 public struct FadeAnimator: FlashAnimator {
 
-    public private(set) var duration: TimeInterval
+    // MARK: - Properties
+    
+    public let configuration: Configuration
 
-    private let timingParameters = UISpringTimingParameters(dampingRatio: 0.5,
-                                                            initialVelocity: CGVector(dx: 1.0, dy: 0.2))
-
-    private let translateAmount: CGFloat = 16
-
-    private let scaleCoefficient: CGFloat = 0.95
-
+    // MARK: - Initialization
+    
     /// Initialize with the supplied animation duration.
-    /// - Parameter duration: The animation duration.
-    public init(duration: TimeInterval = 0.33) {
-        self.duration = duration
+    /// - Parameter configuration: The animation configuration.
+    public init(configuration: Configuration = .default) {
+        self.configuration = configuration
     }
 
     private func scaleAndOffset(t: CGAffineTransform, alignment: FlashView.Alignment) -> CGAffineTransform {
         let orientation: CGFloat = alignment == .bottom ? 1 : -1
-        var transform = t.translatedBy(x: 0, y: translateAmount * orientation)
-        transform = transform.scaledBy(x: scaleCoefficient, y: scaleCoefficient)
+        var transform = t.translatedBy(x: 0, y: configuration.translateAmount * orientation)
+        transform = transform.scaledBy(x: configuration.scaleCoefficient, y: configuration.scaleCoefficient)
         return transform
     }
 
@@ -77,7 +92,9 @@ public struct FadeAnimator: FlashAnimator {
         flashView.alpha = 0
         flashView.transform = scaleAndOffset(t: flashView.transform, alignment: flashView.configuration.alignment)
 
-        let animator = UIViewPropertyAnimator(duration: duration, timingParameters: timingParameters)
+        let timingParameters = UISpringTimingParameters(dampingRatio: configuration.dampingRatio,
+                                                        initialVelocity: configuration.initialVelocity)
+        let animator = UIViewPropertyAnimator(duration: configuration.duration, timingParameters: timingParameters)
 
         animator.addAnimations {
             flashView.alpha = 1
@@ -93,7 +110,7 @@ public struct FadeAnimator: FlashAnimator {
     }
 
     public func animationOut(_ flashView: FlashView, completion: @escaping CompletionHandler) {
-        let animator = UIViewPropertyAnimator(duration: duration, curve: .easeInOut)
+        let animator = UIViewPropertyAnimator(duration: configuration.duration, curve: .easeInOut)
 
         animator.addAnimations {
             flashView.alpha = 0
