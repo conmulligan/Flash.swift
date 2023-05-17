@@ -57,6 +57,7 @@ extension FlashView.Configuration {
     
     public struct TitleProperties {
         public var textColor: UIColor
+        public var font: UIFont
     }
     
 }
@@ -71,7 +72,7 @@ extension FlashView.Configuration {
               contentInsets: .init(top: 8, left: 12, bottom: 8, right: 12),
               backgroundProperties: .init(color: .systemGray5, cornerRadius: 10),
               imageProperties: .init(tintColor: .label.withAlphaComponent(0.8)),
-              titleProperties: .init(textColor: .label),
+              titleProperties: .init(textColor: .label, font: .preferredFont(forTextStyle: .body)),
               playsHaptics: true,
               animator: FadeAnimator())
     }
@@ -108,18 +109,16 @@ public class FlashView: UIView {
         return backgroundView
     }()
 
-    /// The toast's image view.
+    /// The image view.
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView(frame: .zero)
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
 
-    /// The toast's text label.
+    /// The text label.
     private lazy var textLabel: UILabel = {
         let label = UILabel(frame: .zero)
-        label.textColor = .label
-        label.font = .preferredFont(forTextStyle: .callout)
         label.adjustsFontForContentSizeCategory = true
         label.numberOfLines = 10
         label.lineBreakMode = .byTruncatingTail
@@ -157,7 +156,7 @@ public class FlashView: UIView {
 
     override public func layoutSubviews() {
         super.layoutSubviews()
-        guard let superview = superview else { return }
+        guard let superview else { return }
 
         // Layout subviews.
 
@@ -269,8 +268,12 @@ public class FlashView: UIView {
     private func updateConfiguration(_ configuration: Configuration) {
         backgroundView.fillColor = configuration.backgroundProperties.color
         backgroundView.cornerRadius = configuration.backgroundProperties.cornerRadius
+        
         textLabel.textColor = configuration.titleProperties.textColor
+        textLabel.font = configuration.titleProperties.font
+        
         imageView.tintColor = configuration.imageProperties.tintColor
+        
         layoutSubviews()
     }
     
