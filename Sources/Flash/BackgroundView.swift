@@ -51,7 +51,6 @@ class BackgroundView: UIView {
         
         guard let ctx = UIGraphicsGetCurrentContext() else { return }
 
-        // Draw background.
         ctx.saveGState()
 
         let x: CGFloat = (frame.width  - rect.width) / 2

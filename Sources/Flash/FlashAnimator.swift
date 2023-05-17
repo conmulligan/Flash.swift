@@ -52,15 +52,19 @@ extension FadeAnimator {
         public var initialVelocity: CGVector
         public var translateAmount: CGFloat
         public var scaleCoefficient: CGFloat
-        
-        public static var `default`: Configuration {
-            .init(duration: 0.33,
-                  dampingRatio: 0.5,
-                  initialVelocity: CGVector(dx: 1.0, dy: 0.2),
-                  translateAmount: 16,
-                  scaleCoefficient: 0.95
-            )
-        }
+    }
+}
+
+extension FadeAnimator.Configuration {
+    
+    /// The default configuration.
+    public static func defaultConfiguration() -> FadeAnimator.Configuration {
+        .init(duration: 0.33,
+              dampingRatio: 0.5,
+              initialVelocity: CGVector(dx: 1.0, dy: 0.2),
+              translateAmount: 16,
+              scaleCoefficient: 0.95
+        )
     }
 }
 
@@ -75,11 +79,11 @@ public struct FadeAnimator: FlashAnimator {
     
     /// Initialize with the supplied animation duration.
     /// - Parameter configuration: The animation configuration.
-    public init(configuration: Configuration = .default) {
-        self.configuration = configuration
+    public init(configuration: Configuration? = nil) {
+        self.configuration = configuration ?? .defaultConfiguration()
     }
 
-    private func scaleAndOffset(t: CGAffineTransform, alignment: FlashView.Alignment) -> CGAffineTransform {
+    private func scaleAndOffset(t: CGAffineTransform, alignment: FlashView.Configuration.Alignment) -> CGAffineTransform {
         let orientation: CGFloat = alignment == .bottom ? 1 : -1
         var transform = t.translatedBy(x: 0, y: configuration.translateAmount * orientation)
         transform = transform.scaledBy(x: configuration.scaleCoefficient, y: configuration.scaleCoefficient)

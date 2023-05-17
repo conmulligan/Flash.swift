@@ -37,21 +37,21 @@ struct FlashExampleView: View {
     
     @State var symbolName = "star.fill"
     
-    @State private var flashConfiguration = FlashView.Configuration.default
+    @State private var flashConfig = FlashView.Configuration.defaultConfiguration()
 
-    @State private var animationConfiguration = FadeAnimator.Configuration.default
+    @State private var animationConfig = FadeAnimator.Configuration.defaultConfiguration()
     
     private var foregroundColor: Binding<Color> {
         Binding(
-            get: { Color(flashConfiguration.foregroundColor) },
-            set: { flashConfiguration.foregroundColor = UIColor($0) }
+            get: { Color(flashConfig.titleProperties.textColor) },
+            set: { flashConfig.titleProperties.textColor = UIColor($0) }
         )
     }
     
     private var backgroundColor: Binding<Color> {
         Binding(
-            get: { Color(flashConfiguration.backgroundColor) },
-            set: { flashConfiguration.backgroundColor = UIColor($0) }
+            get: { Color(flashConfig.backgroundProperties.color) },
+            set: { flashConfig.backgroundProperties.color = UIColor($0) }
         )
     }
     
@@ -60,16 +60,16 @@ struct FlashExampleView: View {
     // MARK: - Actions
     
     private func reset() {
-        flashConfiguration = .default
-        animationConfiguration = .default
+        flashConfig = .defaultConfiguration()
+        animationConfig = .defaultConfiguration()
         text = "Sample flash text!"
         symbolName = "star.fill"
     }
     
     private func showFlash() {
         let image = UIImage(systemName: symbolName)?.withRenderingMode(.alwaysTemplate)
-        flashConfiguration.animator = FadeAnimator(configuration: animationConfiguration)
-        let flash = FlashView(text: text, image: image, configuration: flashConfiguration)
+        flashConfig.animator = FadeAnimator(configuration: animationConfig)
+        let flash = FlashView(text: text, image: image, configuration: flashConfig)
         flash.show()
     }
     
@@ -81,7 +81,7 @@ struct FlashExampleView: View {
                 TextField("Text", text: $text)
                 SymbolPicker(symbolNames: symbolNames, selected: $symbolName)
             }
-            
+
             Section("Appearance") {
                 ColorPicker("Text Color", selection: foregroundColor)
                 ColorPicker("Background Color", selection: backgroundColor)
@@ -89,10 +89,10 @@ struct FlashExampleView: View {
                     HStack {
                         Text("Corner Radius")
                         Spacer()
-                        Text("\(flashConfiguration.cornerRadius, specifier: "%.0f")")
+                        Text("\(flashConfig.backgroundProperties.cornerRadius, specifier: "%.0f")")
                             .foregroundColor(.secondary)
                     }
-                    Slider(value: $flashConfiguration.cornerRadius, in: 0...100)
+                    Slider(value: $flashConfig.backgroundProperties.cornerRadius, in: 0...100)
                 }
             }
             
@@ -100,7 +100,7 @@ struct FlashExampleView: View {
                 HStack {
                     Text("Duration (s)")
                     Spacer()
-                    TextField("0", value: $animationConfiguration.duration, formatter: NumberFormatter.decimal)
+                    TextField("0", value: $animationConfig.duration, formatter: NumberFormatter.decimal)
                         .textFieldStyle(.roundedBorder)
                         .keyboardType(.decimalPad)
                         .frame(width: 80)
@@ -109,53 +109,53 @@ struct FlashExampleView: View {
                     HStack {
                         Text("Scale Coefficient")
                         Spacer()
-                        Text("\(animationConfiguration.scaleCoefficient, specifier: "%.2f")")
+                        Text("\(animationConfig.scaleCoefficient, specifier: "%.2f")")
                             .foregroundColor(.secondary)
                     }
-                    Slider(value: $animationConfiguration.scaleCoefficient, in: 0...1, step: 0.05)
+                    Slider(value: $animationConfig.scaleCoefficient, in: 0...1, step: 0.05)
                 }
                 VStack(spacing: 8) {
                     HStack {
                         Text("Damping Ratio")
                         Spacer()
-                        Text("\(animationConfiguration.dampingRatio, specifier: "%.2f")")
+                        Text("\(animationConfig.dampingRatio, specifier: "%.2f")")
                             .foregroundColor(.secondary)
                     }
-                    Slider(value: $animationConfiguration.dampingRatio, in: 0...1, step: 0.05)
+                    Slider(value: $animationConfig.dampingRatio, in: 0...1, step: 0.05)
                 }
                 HStack {
-                    Text("Initial Velocity \(animationConfiguration.initialVelocity.dy)")
+                    Text("Initial Velocity")
                     Spacer()
-                    VectorView(vector: $animationConfiguration.initialVelocity)
+                    VectorView(vector: $animationConfig.initialVelocity)
                 }
             }
             
             Section("Layout") {
-                Picker("Alignment", selection: $flashConfiguration.alignment) {
-                    Text("Top").tag(FlashView.Alignment.top)
-                    Text("Bottom").tag(FlashView.Alignment.bottom)
+                Picker("Alignment", selection: $flashConfig.alignment) {
+                    Text("Top").tag(FlashView.Configuration.Alignment.top)
+                    Text("Bottom").tag(FlashView.Configuration.Alignment.bottom)
                 }
-                
+
                 HStack {
                     Text("Image-text spacing")
                     Spacer()
-                    TextField("0", value: $flashConfiguration.spacing, formatter: NumberFormatter.integer)
+                    TextField("0", value: $flashConfig.spacing, formatter: NumberFormatter.integer)
                         .textFieldStyle(.roundedBorder)
                         .keyboardType(.numberPad)
                         .frame(width: 80)
                 }
                 VStack(alignment: .leading, spacing: 4) {
                     Text("Edge Insets")
-                    EdgeInsetsView(edgeInsets: $flashConfiguration.insets)
+                    EdgeInsetsView(edgeInsets: $flashConfig.insets)
                 }
-                
+
                 VStack(alignment: .leading, spacing: 4) {
                     Text("Content Insets")
-                    EdgeInsetsView(edgeInsets: $flashConfiguration.contentInsets)
+                    EdgeInsetsView(edgeInsets: $flashConfig.contentInsets)
                 }
             }
             Section("Haptics") {
-                Toggle("Plays Haptics", isOn: $flashConfiguration.playsHaptics)
+                Toggle("Plays Haptics", isOn: $flashConfig.playsHaptics)
             }
         }
         .scrollDismissesKeyboard(.interactively)

@@ -1,5 +1,5 @@
 //
-//  Flash.swift
+//  FlashView.swift
 //  Flash
 //
 //  Created by Conor Mulligan on 09/07/2022.
@@ -25,35 +25,55 @@
 import UIKit
 
 extension FlashView {
+    /// The flash configuration.
+    public struct Configuration {
+        public var alignment: Configuration.Alignment
+        public var spacing: CGFloat
+        public var insets: UIEdgeInsets
+        public var contentInsets: UIEdgeInsets
+        public var backgroundProperties: Configuration.BackgroundProperties
+        public var imageProperties: Configuration.ImageProperties
+        public var titleProperties: Configuration.TitleProperties
+        public var playsHaptics: Bool
+        public var animator: FlashAnimator
+    }
+}
+
+extension FlashView.Configuration {
     /// The flash view alignment.
     public enum Alignment {
         case top
         case bottom
     }
-
-    /// The flash configuration.
-    public struct Configuration {
-        public var alignment: Alignment
-        public var spacing: CGFloat
-        public var insets: UIEdgeInsets
-        public var contentInsets: UIEdgeInsets
+    
+    public struct BackgroundProperties {
+        public var color: UIColor
         public var cornerRadius: CGFloat
-        public var backgroundColor: UIColor
-        public var foregroundColor: UIColor
-        public var playsHaptics: Bool
-        public var animator: FlashAnimator
-        
-        public static var `default`: Configuration {
-            .init(alignment: .top,
-                  spacing: 8,
-                  insets: .init(top: 16, left: 16, bottom: 16, right: 16),
-                  contentInsets: .init(top: 8, left: 12, bottom: 8, right: 12),
-                  cornerRadius: 10,
-                  backgroundColor: .systemGray5,
-                  foregroundColor: .black,
-                  playsHaptics: true,
-                  animator: FadeAnimator())
-        }
+    }
+    
+    public struct ImageProperties {
+        public var tintColor: UIColor
+    }
+    
+    public struct TitleProperties {
+        public var textColor: UIColor
+    }
+    
+}
+
+extension FlashView.Configuration {
+    
+    /// The default configuration.
+    public static func defaultConfiguration() -> FlashView.Configuration {
+        .init(alignment: .top,
+              spacing: 8,
+              insets: .init(top: 16, left: 16, bottom: 16, right: 16),
+              contentInsets: .init(top: 8, left: 12, bottom: 8, right: 12),
+              backgroundProperties: .init(color: .systemGray5, cornerRadius: 10),
+              imageProperties: .init(tintColor: .label.withAlphaComponent(0.8)),
+              titleProperties: .init(textColor: .label),
+              playsHaptics: true,
+              animator: FadeAnimator())
     }
 }
 
@@ -101,7 +121,7 @@ public class FlashView: UIView {
         label.textColor = .label
         label.font = .preferredFont(forTextStyle: .callout)
         label.adjustsFontForContentSizeCategory = true
-        label.numberOfLines = 2
+        label.numberOfLines = 10
         label.lineBreakMode = .byTruncatingTail
         return label
     }()
@@ -113,7 +133,7 @@ public class FlashView: UIView {
                 configuration: Configuration? = nil) {
         self.text = text
         self.image = image
-        self.configuration = configuration ?? .default
+        self.configuration = configuration ?? .defaultConfiguration()
         super.init(frame: .zero)
 
         [backgroundView, imageView, textLabel].forEach { addSubview($0) }
@@ -247,10 +267,10 @@ public class FlashView: UIView {
     }
 
     private func updateConfiguration(_ configuration: Configuration) {
-        backgroundView.fillColor = configuration.backgroundColor
-        backgroundView.cornerRadius = configuration.cornerRadius
-        textLabel.textColor = configuration.foregroundColor
-        imageView.tintColor = configuration.foregroundColor
+        backgroundView.fillColor = configuration.backgroundProperties.color
+        backgroundView.cornerRadius = configuration.backgroundProperties.cornerRadius
+        textLabel.textColor = configuration.titleProperties.textColor
+        imageView.tintColor = configuration.imageProperties.tintColor
         layoutSubviews()
     }
     
