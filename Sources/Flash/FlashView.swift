@@ -237,7 +237,7 @@ public class FlashView: UIView {
         var ancestralView: V?
         var currentView: UIView? = view
 
-        while ancestralView == nil {
+        while ancestralView == nil, currentView != nil {
             if currentView is V {
                 ancestralView = currentView as? V
             } else {
