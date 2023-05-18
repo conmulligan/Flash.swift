@@ -164,13 +164,16 @@ public class FlashView: UIView {
         // Layout subviews.
 
         let contentFrame = establishContentFrame(for: superview)
-        let contentBounds = CGRect(origin: .zero, size: contentFrame.size).inset(by: configuration.contentInsets)
+        let contentBounds = CGRect(origin: .zero, size: contentFrame.size)
+            .inset(by: configuration.contentInsets)
 
         let distance = (image != nil) ? image!.size.width + configuration.spacing : 0
         var (f1, f2) = contentBounds.divided(atDistance: distance, from: .minXEdge)
 
-        let textSize = textLabel.sizeThatFits(f2.size)
-        f2.size = textSize
+        let textBounds = textLabel.textRect(forBounds: f2,
+                                            limitedToNumberOfLines: configuration.titleProperties.numberOfLines)
+
+        f2.size = textBounds.size
         f1.size = CGSize(width: image?.size.width ?? 0, height: f2.size.height)
 
         imageView.frame = f1
