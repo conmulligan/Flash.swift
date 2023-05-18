@@ -58,6 +58,7 @@ extension FlashView.Configuration {
     public struct TitleProperties {
         public var textColor: UIColor
         public var font: UIFont
+        public var numberOfLines: Int
     }
     
 }
@@ -72,7 +73,9 @@ extension FlashView.Configuration {
               contentInsets: .init(top: 8, left: 12, bottom: 8, right: 12),
               backgroundProperties: .init(color: .systemGray5, cornerRadius: 10),
               imageProperties: .init(tintColor: .label.withAlphaComponent(0.8)),
-              titleProperties: .init(textColor: .label, font: .preferredFont(forTextStyle: .body)),
+              titleProperties: .init(textColor: .label,
+                                     font: .preferredFont(forTextStyle: .body),
+                                     numberOfLines: 2),
               playsHaptics: true,
               animator: FadeAnimator())
     }
@@ -271,6 +274,7 @@ public class FlashView: UIView {
         
         textLabel.textColor = configuration.titleProperties.textColor
         textLabel.font = configuration.titleProperties.font
+        textLabel.numberOfLines = configuration.titleProperties.numberOfLines
         
         imageView.tintColor = configuration.imageProperties.tintColor
         

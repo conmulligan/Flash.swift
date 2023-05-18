@@ -94,6 +94,14 @@ struct FlashExampleView: View {
                     }
                     Slider(value: $flashConfig.backgroundProperties.cornerRadius, in: 0...100)
                 }
+                Stepper(value: $flashConfig.titleProperties.numberOfLines, in: 0...10, step: 1) {
+                    HStack {
+                        Text("Number of Lines")
+                        Spacer()
+                        Text("\(flashConfig.titleProperties.numberOfLines)")
+                            .foregroundColor(.secondary)
+                    }
+                }
             }
             
             Section("Animation") {
