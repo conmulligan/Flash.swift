@@ -34,47 +34,47 @@ struct FlashExampleView: View {
         "trash.fill",
         "folder.fill"
     ]
-    
+
     @State var symbolName = "star.fill"
-    
+
     @State private var flashConfig = FlashView.Configuration.defaultConfiguration()
 
     @State private var animationConfig = FadeAnimator.Configuration.defaultConfiguration()
-    
+
     private var foregroundColor: Binding<Color> {
         Binding(
             get: { Color(flashConfig.titleProperties.textColor) },
             set: { flashConfig.titleProperties.textColor = UIColor($0) }
         )
     }
-    
+
     private var backgroundColor: Binding<Color> {
         Binding(
             get: { Color(flashConfig.backgroundProperties.color) },
             set: { flashConfig.backgroundProperties.color = UIColor($0) }
         )
     }
-    
+
     @State private var textColor = Color(uiColor: .white)
 
     // MARK: - Actions
-    
+
     private func reset() {
         flashConfig = .defaultConfiguration()
         animationConfig = .defaultConfiguration()
         text = "Sample flash text!"
         symbolName = "star.fill"
     }
-    
+
     private func showFlash() {
         let image = UIImage(systemName: symbolName)?.withRenderingMode(.alwaysTemplate)
         flashConfig.animator = FadeAnimator(configuration: animationConfig)
         let flash = FlashView(text: text, image: image, configuration: flashConfig)
         flash.show()
     }
-    
+
     // MARK: - Rendering
-    
+
     var body: some View {
         Form {
             Section("Content") {
@@ -103,7 +103,7 @@ struct FlashExampleView: View {
                     }
                 }
             }
-            
+
             Section("Animation") {
                 HStack {
                     Text("Duration (s)")
@@ -137,7 +137,7 @@ struct FlashExampleView: View {
                     VectorView(vector: $animationConfig.initialVelocity)
                 }
             }
-            
+
             Section("Layout") {
                 Picker("Alignment", selection: $flashConfig.alignment) {
                     Text("Top").tag(FlashView.Configuration.Alignment.top)

@@ -25,11 +25,11 @@
 import SwiftUI
 
 struct SymbolPicker: View {
-    
+
     @State var symbolNames: [String]
-    
+
     @Binding var selected: String
-    
+
     var body: some View {
         ScrollView(.horizontal) {
             HStack {
@@ -53,9 +53,9 @@ struct SymbolPicker_Previews: PreviewProvider {
         "trash.fill",
         "folder.fill"
     ]
-    
+
     @State static var selected = "star.fill"
-    
+
     static var previews: some View {
         SymbolPicker(symbolNames: names, selected: $selected)
     }

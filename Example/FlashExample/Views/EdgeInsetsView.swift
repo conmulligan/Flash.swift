@@ -25,9 +25,9 @@
 import SwiftUI
 
 struct EdgeInsetsView: View {
-    
+
     @Binding var edgeInsets: UIEdgeInsets
-    
+
     var body: some View {
         HStack {
             EdgeInsetView("Top", value: $edgeInsets.top)

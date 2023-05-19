@@ -9,7 +9,7 @@ import SwiftUI
 
 struct VectorView: View {
     @Binding var vector: CGVector
-    
+
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 0) {
@@ -21,7 +21,7 @@ struct VectorView: View {
                     .foregroundColor(.secondary)
             }
             .frame(width: 80)
-            
+
             VStack(alignment: .leading, spacing: 0) {
                 TextField("0", value: $vector.dy, formatter: NumberFormatter.decimal)
                     .textFieldStyle(.roundedBorder)
@@ -37,7 +37,7 @@ struct VectorView: View {
 
 struct VectorView_Previews: PreviewProvider {
     @State static var vector: CGVector = .zero
-    
+
     static var previews: some View {
         VectorView(vector: $vector)
     }
