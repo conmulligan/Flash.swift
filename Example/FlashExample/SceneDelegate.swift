@@ -38,16 +38,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
 
         let viewController = UIHostingController(rootView: FlashExampleView())
-        viewController.tabBarItem.image = UIImage(systemName: "star.fill")
-        viewController.tabBarItem.title = NSLocalizedString("Flash Example", comment: "")
 
-        let tabBarController = UITabBarController()
-
-        let navigationController = UINavigationController(rootViewController: viewController)
-
-        tabBarController.viewControllers = [navigationController]
         window = UIWindow(windowScene: windowScene)
-        window?.rootViewController = tabBarController
+        window?.rootViewController = viewController
         window?.makeKeyAndVisible()
     }
 

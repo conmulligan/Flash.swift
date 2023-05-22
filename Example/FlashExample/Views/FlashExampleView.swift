@@ -76,109 +76,111 @@ struct FlashExampleView: View {
     // MARK: - Rendering
 
     var body: some View {
-        Form {
-            Section("Content") {
-                TextField("Text", text: $text)
-                SymbolPicker(symbolNames: symbolNames, selected: $symbolName)
-            }
+        NavigationStack {
+            Form {
+                Section("Content") {
+                    TextField("Text", text: $text)
+                    SymbolPicker(symbolNames: symbolNames, selected: $symbolName)
+                }
 
-            Section("Appearance") {
-                ColorPicker("Text Color", selection: foregroundColor)
-                ColorPicker("Background Color", selection: backgroundColor)
-                VStack(spacing: 8) {
-                    HStack {
-                        Text("Corner Radius")
-                        Spacer()
-                        Text("\(flashConfig.backgroundProperties.cornerRadius, specifier: "%.0f")")
-                            .foregroundColor(.secondary)
+                Section("Appearance") {
+                    ColorPicker("Text Color", selection: foregroundColor)
+                    ColorPicker("Background Color", selection: backgroundColor)
+                    VStack(spacing: 8) {
+                        HStack {
+                            Text("Corner Radius")
+                            Spacer()
+                            Text("\(flashConfig.backgroundProperties.cornerRadius, specifier: "%.0f")")
+                                .foregroundColor(.secondary)
+                        }
+                        Slider(value: $flashConfig.backgroundProperties.cornerRadius, in: 0...100)
                     }
-                    Slider(value: $flashConfig.backgroundProperties.cornerRadius, in: 0...100)
-                }
-                Stepper(value: $flashConfig.titleProperties.numberOfLines, in: 0...10, step: 1) {
-                    HStack {
-                        Text("Number of Lines")
-                        Spacer()
-                        Text("\(flashConfig.titleProperties.numberOfLines)")
-                            .foregroundColor(.secondary)
+                    Stepper(value: $flashConfig.titleProperties.numberOfLines, in: 0...10, step: 1) {
+                        HStack {
+                            Text("Number of Lines")
+                            Spacer()
+                            Text("\(flashConfig.titleProperties.numberOfLines)")
+                                .foregroundColor(.secondary)
+                        }
                     }
                 }
-            }
 
-            Section("Animation") {
-                HStack {
-                    Text("Duration (s)")
-                    Spacer()
-                    TextField("0", value: $animationConfig.duration, formatter: NumberFormatter.decimal)
-                        .textFieldStyle(.roundedBorder)
-                        .keyboardType(.decimalPad)
-                        .frame(width: 80)
-                }
-                VStack(spacing: 8) {
+                Section("Animation") {
                     HStack {
-                        Text("Scale Coefficient")
+                        Text("Duration (s)")
                         Spacer()
-                        Text("\(animationConfig.scaleCoefficient, specifier: "%.2f")")
-                            .foregroundColor(.secondary)
+                        TextField("0", value: $animationConfig.duration, formatter: NumberFormatter.decimal)
+                            .textFieldStyle(.roundedBorder)
+                            .keyboardType(.decimalPad)
+                            .frame(width: 80)
                     }
-                    Slider(value: $animationConfig.scaleCoefficient, in: 0...1, step: 0.05)
-                }
-                VStack(spacing: 8) {
+                    VStack(spacing: 8) {
+                        HStack {
+                            Text("Scale Coefficient")
+                            Spacer()
+                            Text("\(animationConfig.scaleCoefficient, specifier: "%.2f")")
+                                .foregroundColor(.secondary)
+                        }
+                        Slider(value: $animationConfig.scaleCoefficient, in: 0...1, step: 0.05)
+                    }
+                    VStack(spacing: 8) {
+                        HStack {
+                            Text("Damping Ratio")
+                            Spacer()
+                            Text("\(animationConfig.dampingRatio, specifier: "%.2f")")
+                                .foregroundColor(.secondary)
+                        }
+                        Slider(value: $animationConfig.dampingRatio, in: 0...1, step: 0.05)
+                    }
                     HStack {
-                        Text("Damping Ratio")
+                        Text("Initial Velocity")
                         Spacer()
-                        Text("\(animationConfig.dampingRatio, specifier: "%.2f")")
-                            .foregroundColor(.secondary)
+                        VectorView(vector: $animationConfig.initialVelocity)
                     }
-                    Slider(value: $animationConfig.dampingRatio, in: 0...1, step: 0.05)
-                }
-                HStack {
-                    Text("Initial Velocity")
-                    Spacer()
-                    VectorView(vector: $animationConfig.initialVelocity)
-                }
-            }
-
-            Section("Layout") {
-                Picker("Alignment", selection: $flashConfig.alignment) {
-                    Text("Top").tag(FlashView.Configuration.Alignment.top)
-                    Text("Bottom").tag(FlashView.Configuration.Alignment.bottom)
                 }
 
-                HStack {
-                    Text("Image-text spacing")
-                    Spacer()
-                    TextField("0", value: $flashConfig.spacing, formatter: NumberFormatter.integer)
-                        .textFieldStyle(.roundedBorder)
-                        .keyboardType(.numberPad)
-                        .frame(width: 80)
-                }
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("Edge Insets")
-                    EdgeInsetsView(edgeInsets: $flashConfig.insets)
-                }
+                Section("Layout") {
+                    Picker("Alignment", selection: $flashConfig.alignment) {
+                        Text("Top").tag(FlashView.Configuration.Alignment.top)
+                        Text("Bottom").tag(FlashView.Configuration.Alignment.bottom)
+                    }
 
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("Content Insets")
-                    EdgeInsetsView(edgeInsets: $flashConfig.contentInsets)
+                    HStack {
+                        Text("Image-text spacing")
+                        Spacer()
+                        TextField("0", value: $flashConfig.spacing, formatter: NumberFormatter.integer)
+                            .textFieldStyle(.roundedBorder)
+                            .keyboardType(.numberPad)
+                            .frame(width: 80)
+                    }
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("Edge Insets")
+                        EdgeInsetsView(edgeInsets: $flashConfig.insets)
+                    }
+
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("Content Insets")
+                        EdgeInsetsView(edgeInsets: $flashConfig.contentInsets)
+                    }
+                }
+                Section("Haptics") {
+                    Toggle("Plays Haptics", isOn: $flashConfig.playsHaptics)
                 }
             }
-            Section("Haptics") {
-                Toggle("Plays Haptics", isOn: $flashConfig.playsHaptics)
-            }
-        }
-        .scrollDismissesKeyboard(.interactively)
-        .navigationTitle("Flash Example")
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button("Reset") {
-                    reset()
+            .scrollDismissesKeyboard(.interactively)
+            .navigationTitle("Flash Example")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("Reset") {
+                        reset()
+                    }
                 }
-            }
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button("Show") {
-                    showFlash()
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Show") {
+                        showFlash()
+                    }
+                    .bold()
                 }
-                .bold()
             }
         }
     }

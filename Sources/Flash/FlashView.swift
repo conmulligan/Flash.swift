@@ -222,9 +222,12 @@ public class FlashView: UIView {
         }
 
         let bottomPoint = CGPoint(x: 5, y: superview.frame.maxY - superview.safeAreaInsets.bottom - 5)
-        if let hitTest = superview.hitTest(bottomPoint, with: nil),
-           let tabBar: UITabBar = firstAncestralView(in: hitTest) {
-            additionalInsets.bottom = superview.frame.maxY - tabBar.frame.minY - superview.safeAreaInsets.bottom
+        if let hitTest = superview.hitTest(bottomPoint, with: nil) {
+            if let tabBar: UITabBar = firstAncestralView(in: hitTest) {
+                additionalInsets.bottom = superview.frame.maxY - tabBar.frame.minY - superview.safeAreaInsets.bottom
+            } else if let toolbar: UIToolbar = firstAncestralView(in: hitTest) {
+                additionalInsets.bottom = superview.frame.maxY - toolbar.frame.minY - superview.safeAreaInsets.bottom
+            }
         }
 
         return additionalInsets
