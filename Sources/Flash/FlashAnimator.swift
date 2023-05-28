@@ -43,9 +43,9 @@ public protocol FlashAnimator {
     func animationOut(_ flashView: FlashView, completion: @escaping CompletionHandler)
 }
 
-extension FadeAnimator {
+extension DefaultAnimator {
     
-    /// The fade animator configuration.
+    /// The animation configuration.
     public struct Configuration {
         public var duration: TimeInterval
         public var dampingRatio: CGFloat
@@ -55,21 +55,21 @@ extension FadeAnimator {
     }
 }
 
-extension FadeAnimator.Configuration {
+extension DefaultAnimator.Configuration {
     
     /// The default configuration.
-    public static func defaultConfiguration() -> FadeAnimator.Configuration {
+    public static func defaultConfiguration() -> DefaultAnimator.Configuration {
         .init(duration: 0.33,
               dampingRatio: 0.5,
-              initialVelocity: CGVector(dx: 1.0, dy: 0.2),
+              initialVelocity: .zero,
               translateAmount: 16,
               scaleCoefficient: 0.95
         )
     }
 }
 
-/// A flash message animator that fades in and out.
-public struct FadeAnimator: FlashAnimator {
+/// The default flash animator.
+public struct DefaultAnimator: FlashAnimator {
 
     // MARK: - Properties
     

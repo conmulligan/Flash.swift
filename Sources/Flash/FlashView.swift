@@ -77,7 +77,7 @@ extension FlashView.Configuration {
                                      font: .preferredFont(forTextStyle: .body),
                                      numberOfLines: 2),
               playsHaptics: true,
-              animator: FadeAnimator())
+              animator: DefaultAnimator())
     }
 }
 
@@ -194,6 +194,8 @@ public class FlashView: UIView {
         case .bottom:
             center = CGPoint(x: superview.center.x, y: contentFrame.maxY - (bounds.size.height / 2))
         }
+        
+        print("KB: \(superview.keyboardLayoutGuide.layoutFrame)")
     }
 
     // MARK: - Layout
@@ -203,8 +205,8 @@ public class FlashView: UIView {
     /// - Parameter superview: The superview.
     /// - Returns: The content frame.
     private func establishContentFrame(for superview: UIView) -> CGRect {
-        let safeArea = superview.bounds.inset(by: superview.safeAreaInsets)
-        return safeArea
+        superview.bounds
+            .inset(by: superview.safeAreaInsets)
             .inset(by: additionalInsets(for: superview))
             .inset(by: configuration.insets)
     }
@@ -233,8 +235,8 @@ public class FlashView: UIView {
         return additionalInsets
     }
 
-    /// Walk the view hierachy to find if the supplied view, or one of its ancestors, is a view of type `V`.
-    /// - Parameter view: The view who's hierachy to walk back from.
+    /// Walk the view hierachy to determine if the supplied view, or one of its ancestors, is a view of type `V`.
+    /// - Parameter view: The view whose hierachy to walk back from.
     /// - Returns: A `V` instance if found, otherwise `nil`.
     private func firstAncestralView<V: UIView>(in view: UIView) -> V? {
         var ancestralView: V?
@@ -300,16 +302,18 @@ extension FlashView {
     
     // MARK: - Presentation
 
+    private var keyWindow: UIWindow? {
+        let foregroundScene = UIApplication.shared.connectedScenes
+            .first { $0.activationState == .foregroundActive } as? UIWindowScene
+        return foregroundScene?.windows.first(where: \.isKeyWindow)
+    }
+    
     /// Show the flash message in the supplised view.
     /// - Parameters:
     ///   - view: The view to show the flash message in.
     ///   - duration: The flash message duration.
     public func show(in view: UIView? = nil, duration: TimeInterval = 2) {
-        var view = view
-        if view == nil {
-            view = UIApplication.shared.windows.first(where: \.isKeyWindow)
-        }
-        guard let view = view else { return }
+        guard let view = view ?? keyWindow else { return }
 
         hideExistingViews(in: view)
 

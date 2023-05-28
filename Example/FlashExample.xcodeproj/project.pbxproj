@@ -9,7 +9,9 @@
 /* Begin PBXBuildFile section */
 		E12070B52A143650004C9D2B /* VectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12070B42A143650004C9D2B /* VectorView.swift */; };
 		E12070B72A143BDD004C9D2B /* NumberFormatter+Formatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12070B62A143BDD004C9D2B /* NumberFormatter+Formatters.swift */; };
-		E1BA58F02A11615000EFB533 /* FlashExampleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BA58EF2A11615000EFB533 /* FlashExampleView.swift */; };
+		E14FAEA12A22D2B600EDDD62 /* BasicExampleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14FAEA02A22D2B600EDDD62 /* BasicExampleView.swift */; };
+		E14FAEA32A22D4E900EDDD62 /* ExampleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14FAEA22A22D4E900EDDD62 /* ExampleView.swift */; };
+		E1BA58F02A11615000EFB533 /* AdvancedExampleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BA58EF2A11615000EFB533 /* AdvancedExampleView.swift */; };
 		E1BA58F22A116A4D00EFB533 /* EdgeInsetsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BA58F12A116A4D00EFB533 /* EdgeInsetsView.swift */; };
 		E1BA58F42A116FFE00EFB533 /* EdgeInsetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BA58F32A116FFE00EFB533 /* EdgeInsetView.swift */; };
 		E1BA58F62A11A0C400EFB533 /* SymbolPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BA58F52A11A0C400EFB533 /* SymbolPicker.swift */; };
@@ -23,8 +25,10 @@
 /* Begin PBXFileReference section */
 		E12070B42A143650004C9D2B /* VectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VectorView.swift; sourceTree = "<group>"; };
 		E12070B62A143BDD004C9D2B /* NumberFormatter+Formatters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NumberFormatter+Formatters.swift"; sourceTree = "<group>"; };
+		E14FAEA02A22D2B600EDDD62 /* BasicExampleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicExampleView.swift; sourceTree = "<group>"; };
+		E14FAEA22A22D4E900EDDD62 /* ExampleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleView.swift; sourceTree = "<group>"; };
 		E1BA58EE2A0C5F8D00EFB533 /* Flash */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Flash; path = ..; sourceTree = "<group>"; };
-		E1BA58EF2A11615000EFB533 /* FlashExampleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashExampleView.swift; sourceTree = "<group>"; };
+		E1BA58EF2A11615000EFB533 /* AdvancedExampleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedExampleView.swift; sourceTree = "<group>"; };
 		E1BA58F12A116A4D00EFB533 /* EdgeInsetsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EdgeInsetsView.swift; sourceTree = "<group>"; };
 		E1BA58F32A116FFE00EFB533 /* EdgeInsetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EdgeInsetView.swift; sourceTree = "<group>"; };
 		E1BA58F52A11A0C400EFB533 /* SymbolPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbolPicker.swift; sourceTree = "<group>"; };
@@ -63,7 +67,9 @@
 				E1BA58F32A116FFE00EFB533 /* EdgeInsetView.swift */,
 				E1BA58F12A116A4D00EFB533 /* EdgeInsetsView.swift */,
 				E12070B42A143650004C9D2B /* VectorView.swift */,
-				E1BA58EF2A11615000EFB533 /* FlashExampleView.swift */,
+				E1BA58EF2A11615000EFB533 /* AdvancedExampleView.swift */,
+				E14FAEA02A22D2B600EDDD62 /* BasicExampleView.swift */,
+				E14FAEA22A22D4E900EDDD62 /* ExampleView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -217,8 +223,10 @@
 				E1BA58F22A116A4D00EFB533 /* EdgeInsetsView.swift in Sources */,
 				E12070B72A143BDD004C9D2B /* NumberFormatter+Formatters.swift in Sources */,
 				E12070B52A143650004C9D2B /* VectorView.swift in Sources */,
-				E1BA58F02A11615000EFB533 /* FlashExampleView.swift in Sources */,
+				E1BA58F02A11615000EFB533 /* AdvancedExampleView.swift in Sources */,
+				E14FAEA12A22D2B600EDDD62 /* BasicExampleView.swift in Sources */,
 				E1BC8F7F2879F5DA00CCFBAC /* SceneDelegate.swift in Sources */,
+				E14FAEA32A22D4E900EDDD62 /* ExampleView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

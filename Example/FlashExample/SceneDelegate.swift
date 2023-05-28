@@ -37,7 +37,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
 
-        let viewController = UIHostingController(rootView: FlashExampleView())
+        let viewController = UIHostingController(rootView: ExampleView())
 
         window = UIWindow(windowScene: windowScene)
         window?.rootViewController = viewController
