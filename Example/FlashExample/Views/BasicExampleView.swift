@@ -11,8 +11,7 @@ import Flash
 struct BasicExampleView: View {
     private func showFlash() {
         let flash = FlashView(text: "Hello!",
-                              image: UIImage(systemName: "star.fill"),
-                              configuration: configuration)
+                              image: UIImage(systemName: "star.fill"))
         flash.show()
     }
 
