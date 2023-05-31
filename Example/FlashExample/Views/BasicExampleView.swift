@@ -12,6 +12,7 @@ struct BasicExampleView: View {
     private func showFlash() {
         let flash = FlashView(text: "Hello!",
                               image: UIImage(systemName: "star.fill"))
+        flash.accessibilityIdentifier = "flash_view"
         flash.show()
     }
 
@@ -19,6 +20,7 @@ struct BasicExampleView: View {
         Button("Show Flash") {
             showFlash()
         }
+        .accessibilityIdentifier("show_basic_flash_view_button")
     }
 }
 

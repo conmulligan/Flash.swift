@@ -11,6 +11,8 @@
 		E12070B72A143BDD004C9D2B /* NumberFormatter+Formatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12070B62A143BDD004C9D2B /* NumberFormatter+Formatters.swift */; };
 		E14FAEA12A22D2B600EDDD62 /* BasicExampleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14FAEA02A22D2B600EDDD62 /* BasicExampleView.swift */; };
 		E14FAEA32A22D4E900EDDD62 /* ExampleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14FAEA22A22D4E900EDDD62 /* ExampleView.swift */; };
+		E17443412A27F51A0036714C /* FlashExampleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E17443402A27F51A0036714C /* FlashExampleUITests.swift */; };
+		E174434A2A27F7210036714C /* Flash in Frameworks */ = {isa = PBXBuildFile; productRef = E17443492A27F7210036714C /* Flash */; };
 		E1BA58F02A11615000EFB533 /* AdvancedExampleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BA58EF2A11615000EFB533 /* AdvancedExampleView.swift */; };
 		E1BA58F22A116A4D00EFB533 /* EdgeInsetsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BA58F12A116A4D00EFB533 /* EdgeInsetsView.swift */; };
 		E1BA58F42A116FFE00EFB533 /* EdgeInsetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BA58F32A116FFE00EFB533 /* EdgeInsetView.swift */; };
@@ -22,11 +24,23 @@
 		E1BC8F942879FA0900CCFBAC /* Flash in Frameworks */ = {isa = PBXBuildFile; productRef = E1BC8F932879FA0900CCFBAC /* Flash */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		E17443442A27F51A0036714C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E1BC8F712879F5DA00CCFBAC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E1BC8F782879F5DA00CCFBAC;
+			remoteInfo = FlashExample;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		E12070B42A143650004C9D2B /* VectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VectorView.swift; sourceTree = "<group>"; };
 		E12070B62A143BDD004C9D2B /* NumberFormatter+Formatters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NumberFormatter+Formatters.swift"; sourceTree = "<group>"; };
 		E14FAEA02A22D2B600EDDD62 /* BasicExampleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicExampleView.swift; sourceTree = "<group>"; };
 		E14FAEA22A22D4E900EDDD62 /* ExampleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleView.swift; sourceTree = "<group>"; };
+		E174433E2A27F51A0036714C /* FlashExampleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FlashExampleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E17443402A27F51A0036714C /* FlashExampleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashExampleUITests.swift; sourceTree = "<group>"; };
 		E1BA58EE2A0C5F8D00EFB533 /* Flash */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Flash; path = ..; sourceTree = "<group>"; };
 		E1BA58EF2A11615000EFB533 /* AdvancedExampleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedExampleView.swift; sourceTree = "<group>"; };
 		E1BA58F12A116A4D00EFB533 /* EdgeInsetsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EdgeInsetsView.swift; sourceTree = "<group>"; };
@@ -41,6 +55,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		E174433B2A27F51A0036714C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E174434A2A27F7210036714C /* Flash in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E1BC8F762879F5DA00CCFBAC /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -58,6 +80,14 @@
 				E12070B62A143BDD004C9D2B /* NumberFormatter+Formatters.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		E174433F2A27F51A0036714C /* FlashExampleUITests */ = {
+			isa = PBXGroup;
+			children = (
+				E17443402A27F51A0036714C /* FlashExampleUITests.swift */,
+			);
+			path = FlashExampleUITests;
 			sourceTree = "<group>";
 		};
 		E1BA58F72A12F20A00EFB533 /* Views */ = {
@@ -79,6 +109,7 @@
 			children = (
 				E1BC8F902879F65C00CCFBAC /* Packages */,
 				E1BC8F7B2879F5DA00CCFBAC /* FlashExample */,
+				E174433F2A27F51A0036714C /* FlashExampleUITests */,
 				E1BC8F7A2879F5DA00CCFBAC /* Products */,
 				E1BC8F922879FA0900CCFBAC /* Frameworks */,
 			);
@@ -88,6 +119,7 @@
 			isa = PBXGroup;
 			children = (
 				E1BC8F792879F5DA00CCFBAC /* FlashExample.app */,
+				E174433E2A27F51A0036714C /* FlashExampleUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -124,6 +156,27 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		E174433D2A27F51A0036714C /* FlashExampleUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E17443482A27F51A0036714C /* Build configuration list for PBXNativeTarget "FlashExampleUITests" */;
+			buildPhases = (
+				E174433A2A27F51A0036714C /* Sources */,
+				E174433B2A27F51A0036714C /* Frameworks */,
+				E174433C2A27F51A0036714C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E17443452A27F51A0036714C /* PBXTargetDependency */,
+			);
+			name = FlashExampleUITests;
+			packageProductDependencies = (
+				E17443492A27F7210036714C /* Flash */,
+			);
+			productName = FlashExampleUITests;
+			productReference = E174433E2A27F51A0036714C /* FlashExampleUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		E1BC8F782879F5DA00CCFBAC /* FlashExample */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = E1BC8F8D2879F5DB00CCFBAC /* Build configuration list for PBXNativeTarget "FlashExample" */;
@@ -152,9 +205,13 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1340;
+				LastSwiftUpdateCheck = 1430;
 				LastUpgradeCheck = 1340;
 				TargetAttributes = {
+					E174433D2A27F51A0036714C = {
+						CreatedOnToolsVersion = 14.3;
+						TestTargetID = E1BC8F782879F5DA00CCFBAC;
+					};
 					E1BC8F782879F5DA00CCFBAC = {
 						CreatedOnToolsVersion = 13.4.1;
 					};
@@ -174,11 +231,19 @@
 			projectRoot = "";
 			targets = (
 				E1BC8F782879F5DA00CCFBAC /* FlashExample */,
+				E174433D2A27F51A0036714C /* FlashExampleUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		E174433C2A27F51A0036714C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E1BC8F772879F5DA00CCFBAC /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -213,6 +278,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		E174433A2A27F51A0036714C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E17443412A27F51A0036714C /* FlashExampleUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E1BC8F752879F5DA00CCFBAC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -232,6 +305,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		E17443452A27F51A0036714C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E1BC8F782879F5DA00CCFBAC /* FlashExample */;
+			targetProxy = E17443442A27F51A0036714C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		E1BC8F872879F5DB00CCFBAC /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
@@ -244,6 +325,44 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		E17443462A27F51A0036714C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = D79X9D728B;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.github.conmulligan.FlashExampleUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = FlashExample;
+			};
+			name = Debug;
+		};
+		E17443472A27F51A0036714C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = D79X9D728B;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.github.conmulligan.FlashExampleUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = FlashExample;
+			};
+			name = Release;
+		};
 		E1BC8F8B2879F5DB00CCFBAC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -417,6 +536,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		E17443482A27F51A0036714C /* Build configuration list for PBXNativeTarget "FlashExampleUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E17443462A27F51A0036714C /* Debug */,
+				E17443472A27F51A0036714C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		E1BC8F742879F5DA00CCFBAC /* Build configuration list for PBXProject "FlashExample" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -438,6 +566,10 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		E17443492A27F7210036714C /* Flash */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Flash;
+		};
 		E1BC8F932879FA0900CCFBAC /* Flash */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Flash;
