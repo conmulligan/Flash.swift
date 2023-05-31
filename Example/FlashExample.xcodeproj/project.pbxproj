@@ -52,6 +52,7 @@
 		E1BC8F852879F5DB00CCFBAC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E1BC8F882879F5DB00CCFBAC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E1BC8F8A2879F5DB00CCFBAC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E1F176052A280AB700CB34B0 /* TestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = TestPlan.xctestplan; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +134,7 @@
 				E1BC8F7E2879F5DA00CCFBAC /* SceneDelegate.swift */,
 				E1BC8F852879F5DB00CCFBAC /* Assets.xcassets */,
 				E1BC8F872879F5DB00CCFBAC /* LaunchScreen.storyboard */,
+				E1F176052A280AB700CB34B0 /* TestPlan.xctestplan */,
 				E1BC8F8A2879F5DB00CCFBAC /* Info.plist */,
 			);
 			path = FlashExample;

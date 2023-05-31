@@ -1,0 +1,37 @@
+{
+  "configurations" : [
+    {
+      "id" : "3AF5B41E-48E7-4449-A1C5-6EE239FB0F72",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false,
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:FlashExample.xcodeproj",
+      "identifier" : "E1BC8F782879F5DA00CCFBAC",
+      "name" : "FlashExample"
+    }
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:FlashExample.xcodeproj",
+        "identifier" : "E174433D2A27F51A0036714C",
+        "name" : "FlashExampleUITests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:..",
+        "identifier" : "FlashTests",
+        "name" : "FlashTests"
+      }
+    }
+  ],
+  "version" : 1
+}
