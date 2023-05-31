@@ -2,9 +2,15 @@ import XCTest
 @testable import Flash
 
 final class FlashTests: XCTestCase {
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct
-        // results.
+    func testInitCustomConfiguration() {
+        let configuration = FlashView.Configuration(alignment: .bottom)
+        let flash = FlashView(text: "Test", configuration: configuration)
+        XCTAssert(flash.configuration.alignment == configuration.alignment)
+    }
+    
+    func testInitCustomAnimatorConfiguration() throws {
+        let configuration = DefaultAnimator.Configuration(duration: 10)
+        let animator = DefaultAnimator(configuration: configuration)
+        XCTAssert(animator.configuration.duration == configuration.duration)
     }
 }
