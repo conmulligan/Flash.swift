@@ -71,8 +71,6 @@ struct AdvancedExampleView: View {
         flashConfig.animator = DefaultAnimator(configuration: animationConfig)
         let flash = FlashView(text: text, image: image, configuration: flashConfig)
         flash.show()
-
-        flash.show(in: UIView(), duration: 2)
     }
 
     // MARK: - Rendering
