@@ -36,6 +36,26 @@ extension FlashView {
         public var titleProperties: Configuration.TitleProperties
         public var playsHaptics: Bool
         public var animator: FlashAnimator
+        
+        public init(alignment: Configuration.Alignment? = nil,
+                    spacing: CGFloat? = nil,
+                    insets: UIEdgeInsets? = nil,
+                    contentInsets: UIEdgeInsets? = nil,
+                    backgroundProperties: Configuration.BackgroundProperties? = nil,
+                    imageProperties: Configuration.ImageProperties? = nil,
+                    titleProperties: Configuration.TitleProperties? = nil,
+                    playsHaptics: Bool? = nil,
+                    animator: FlashAnimator? = nil) {
+            self.alignment = alignment ?? .top
+            self.spacing = spacing ?? 0
+            self.insets = insets ?? .zero
+            self.contentInsets = contentInsets ?? .zero
+            self.backgroundProperties = backgroundProperties ?? .init(color: .clear, cornerRadius: 0)
+            self.imageProperties = imageProperties ?? .init(tintColor: .tintColor)
+            self.titleProperties = titleProperties ?? .init(textColor: .label, font: .preferredFont(forTextStyle: .body), numberOfLines: 0)
+            self.playsHaptics = playsHaptics ?? false
+            self.animator = animator ?? DefaultAnimator()
+        }
     }
 }
 
@@ -194,8 +214,6 @@ public class FlashView: UIView {
         case .bottom:
             center = CGPoint(x: superview.center.x, y: contentFrame.maxY - (bounds.size.height / 2))
         }
-        
-        print("KB: \(superview.keyboardLayoutGuide.layoutFrame)")
     }
 
     // MARK: - Layout
@@ -265,7 +283,7 @@ public class FlashView: UIView {
         let feedbackGenerator = UIImpactFeedbackGenerator(style: .light)
         feedbackGenerator.impactOccurred()
     }
-    
+
     // MARK: - State
 
     private func updateText(_ text: String) {

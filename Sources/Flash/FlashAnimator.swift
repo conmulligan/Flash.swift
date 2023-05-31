@@ -52,6 +52,18 @@ extension DefaultAnimator {
         public var initialVelocity: CGVector
         public var translateAmount: CGFloat
         public var scaleCoefficient: CGFloat
+        
+        public init(duration: TimeInterval? = nil,
+                    dampingRatio: CGFloat? = nil,
+                    initialVelocity: CGVector? = nil,
+                    translateAmount: CGFloat? = nil,
+                    scaleCoefficient: CGFloat? = nil) {
+            self.duration = duration ?? 0
+            self.dampingRatio = dampingRatio ?? 1
+            self.initialVelocity = initialVelocity ?? .zero
+            self.translateAmount = translateAmount ?? 0
+            self.scaleCoefficient = scaleCoefficient ?? 1
+        }
     }
 }
 
@@ -60,7 +72,7 @@ extension DefaultAnimator.Configuration {
     /// The default configuration.
     public static func defaultConfiguration() -> DefaultAnimator.Configuration {
         .init(duration: 0.33,
-              dampingRatio: 0.5,
+              dampingRatio: 0.6,
               initialVelocity: .zero,
               translateAmount: 16,
               scaleCoefficient: 0.95
