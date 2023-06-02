@@ -7,7 +7,7 @@ final class FlashTests: XCTestCase {
         let flash = FlashView(text: "Test", configuration: configuration)
         XCTAssert(flash.configuration.alignment == configuration.alignment)
     }
-    
+
     func testInitCustomAnimatorConfiguration() throws {
         let configuration = DefaultAnimator.Configuration(duration: 10)
         let animator = DefaultAnimator(configuration: configuration)

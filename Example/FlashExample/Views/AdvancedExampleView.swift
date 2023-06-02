@@ -37,6 +37,8 @@ struct AdvancedExampleView: View {
 
     @State var symbolName = "star.fill"
 
+    @State var duration: TimeInterval = 2
+
     @State private var flashConfig = FlashView.Configuration.defaultConfiguration()
 
     @State private var animationConfig = DefaultAnimator.Configuration.defaultConfiguration()
@@ -70,7 +72,7 @@ struct AdvancedExampleView: View {
         let image = UIImage(systemName: symbolName)?.withRenderingMode(.alwaysTemplate)
         flashConfig.animator = DefaultAnimator(configuration: animationConfig)
         let flash = FlashView(text: text, image: image, configuration: flashConfig)
-        flash.show()
+        flash.show(duration: duration)
     }
 
     // MARK: - Rendering
@@ -83,6 +85,14 @@ struct AdvancedExampleView: View {
             }
 
             Section("Appearance") {
+                HStack {
+                    Text("Duration (s)")
+                    Spacer()
+                    TextField("0", value: $duration, formatter: NumberFormatter.decimal)
+                        .textFieldStyle(.roundedBorder)
+                        .keyboardType(.decimalPad)
+                        .frame(width: 80)
+                }
                 ColorPicker("Text Color", selection: foregroundColor)
                 ColorPicker("Background Color", selection: backgroundColor)
                 VStack(spacing: 8) {

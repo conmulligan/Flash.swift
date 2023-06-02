@@ -36,7 +36,7 @@ extension FlashView {
         public var titleProperties: Configuration.TitleProperties
         public var playsHaptics: Bool
         public var animator: FlashAnimator
-        
+
         public init(alignment: Configuration.Alignment? = nil,
                     spacing: CGFloat? = nil,
                     insets: UIEdgeInsets? = nil,
@@ -65,26 +65,26 @@ extension FlashView.Configuration {
         case top
         case bottom
     }
-    
+
     public struct BackgroundProperties {
         public var color: UIColor
         public var cornerRadius: CGFloat
     }
-    
+
     public struct ImageProperties {
         public var tintColor: UIColor
     }
-    
+
     public struct TitleProperties {
         public var textColor: UIColor
         public var font: UIFont
         public var numberOfLines: Int
     }
-    
+
 }
 
 extension FlashView.Configuration {
-    
+
     /// The default configuration.
     public static func defaultConfiguration() -> FlashView.Configuration {
         .init(alignment: .top,
@@ -120,7 +120,7 @@ public class FlashView: UIView {
     public var configuration: Configuration {
         didSet { updateConfiguration(configuration) }
     }
-    
+
     /// The timer.
     private var timer: Timer?
 
@@ -174,16 +174,26 @@ public class FlashView: UIView {
     override public func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 
-        setNeedsLayout()
+        layoutIfNeeded()
+        reposition()
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            UIView.animate(withDuration: 0.2) {
+                self.reposition()
+            }
+        }
     }
 
     override public func layoutSubviews() {
         super.layoutSubviews()
         guard let superview else { return }
 
+        print("Layout subviews!")
+
         // Layout subviews.
 
         let contentFrame = establishContentFrame(for: superview)
+
         let contentBounds = CGRect(origin: .zero, size: contentFrame.size)
             .inset(by: configuration.contentInsets)
 
@@ -198,12 +208,15 @@ public class FlashView: UIView {
 
         imageView.frame = f1
         textLabel.frame = f2
+    }
 
-        // Layout self.
+    private func reposition() {
+        guard let superview else { return }
+        let contentFrame = establishContentFrame(for: superview)
 
         bounds.size = CGSize(
-            width: (f2.maxX + configuration.contentInsets.right).rounded(),
-            height: (f2.maxY + configuration.contentInsets.bottom).rounded()
+            width: (textLabel.frame.maxX + configuration.contentInsets.right).rounded(),
+            height: (textLabel.frame.maxY + configuration.contentInsets.bottom).rounded()
         )
 
         backgroundView.frame = bounds
@@ -216,8 +229,15 @@ public class FlashView: UIView {
         }
     }
 
+    override public func didMoveToSuperview() {
+        super.didMoveToSuperview()
+
+        layoutIfNeeded()
+        reposition()
+    }
+
     // MARK: - Layout
-    
+
     /// Calculate the content frame within the supplied superview.
     /// This frame accounts for the superview's safe area insets, and the flash view's `insets` property.
     /// - Parameter superview: The superview.
@@ -297,16 +317,16 @@ public class FlashView: UIView {
     private func updateConfiguration(_ configuration: Configuration) {
         backgroundView.fillColor = configuration.backgroundProperties.color
         backgroundView.cornerRadius = configuration.backgroundProperties.cornerRadius
-        
+
         textLabel.textColor = configuration.titleProperties.textColor
         textLabel.font = configuration.titleProperties.font
         textLabel.numberOfLines = configuration.titleProperties.numberOfLines
-        
+
         imageView.tintColor = configuration.imageProperties.tintColor
-        
+
         layoutSubviews()
     }
-    
+
     private func addTimer(duration: TimeInterval) {
         guard timer == nil else { return }
 
@@ -317,7 +337,7 @@ public class FlashView: UIView {
 }
 
 extension FlashView {
-    
+
     // MARK: - Presentation
 
     private var keyWindow: UIWindow? {
@@ -325,7 +345,7 @@ extension FlashView {
             .first { $0.activationState == .foregroundActive } as? UIWindowScene
         return foregroundScene?.windows.first(where: \.isKeyWindow)
     }
-    
+
     /// Show the flash message in the supplised view.
     /// - Parameters:
     ///   - view: The view to show the flash message in.
@@ -336,12 +356,11 @@ extension FlashView {
         hideExistingViews(in: view)
 
         view.addSubview(self)
-        setNeedsLayout()
 
         configuration.animator.animateIn(self) {
             self.addTimer(duration: duration)
         }
-        
+
         if configuration.playsHaptics {
             playHaptics()
         }

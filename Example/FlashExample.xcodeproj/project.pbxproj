@@ -183,10 +183,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E1BC8F8D2879F5DB00CCFBAC /* Build configuration list for PBXNativeTarget "FlashExample" */;
 			buildPhases = (
+				E178FE7C2A2A8A0B00582338 /* Lint */,
 				E1BC8F752879F5DA00CCFBAC /* Sources */,
 				E1BC8F762879F5DA00CCFBAC /* Frameworks */,
 				E1BC8F772879F5DA00CCFBAC /* Resources */,
-				E12CABBA2A171C2000C8C2A7 /* Lint */,
 			);
 			buildRules = (
 			);
@@ -228,6 +228,9 @@
 				Base,
 			);
 			mainGroup = E1BC8F702879F5DA00CCFBAC;
+			packageReferences = (
+				E178FE792A2A891300582338 /* XCRemoteSwiftPackageReference "SwiftLint" */,
+			);
 			productRefGroup = E1BC8F7A2879F5DA00CCFBAC /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -258,7 +261,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		E12CABBA2A171C2000C8C2A7 /* Lint */ = {
+		E178FE7C2A2A8A0B00582338 /* Lint */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
@@ -275,7 +278,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [[ \"$(uname -m)\" == arm64 ]]; then\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\nif which swiftlint > /dev/null; then\n  swiftlint --fix && swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+			shellScript = "# Pick up the Apple Silicon Homebrew directory.\nexport PATH=\"$PATH:/opt/homebrew/bin\"\n\nif which swiftlint; then\n    swiftlint --config ../.swiftlint.yml --fix && swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -566,6 +569,17 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		E178FE792A2A891300582338 /* XCRemoteSwiftPackageReference "SwiftLint" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/SwiftLint";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.52.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
 		E17443492A27F7210036714C /* Flash */ = {

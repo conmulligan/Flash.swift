@@ -44,7 +44,7 @@ public protocol FlashAnimator {
 }
 
 extension DefaultAnimator {
-    
+
     /// The animation configuration.
     public struct Configuration {
         public var duration: TimeInterval
@@ -52,7 +52,7 @@ extension DefaultAnimator {
         public var initialVelocity: CGVector
         public var translateAmount: CGFloat
         public var scaleCoefficient: CGFloat
-        
+
         public init(duration: TimeInterval? = nil,
                     dampingRatio: CGFloat? = nil,
                     initialVelocity: CGVector? = nil,
@@ -68,7 +68,7 @@ extension DefaultAnimator {
 }
 
 extension DefaultAnimator.Configuration {
-    
+
     /// The default configuration.
     public static func defaultConfiguration() -> DefaultAnimator.Configuration {
         .init(duration: 0.33,
@@ -84,11 +84,11 @@ extension DefaultAnimator.Configuration {
 public struct DefaultAnimator: FlashAnimator {
 
     // MARK: - Properties
-    
+
     public let configuration: Configuration
 
     // MARK: - Initialization
-    
+
     /// Initialize with the supplied animation duration.
     /// - Parameter configuration: The animation configuration.
     public init(configuration: Configuration? = nil) {

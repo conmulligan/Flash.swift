@@ -33,22 +33,22 @@ class BackgroundView: UIView {
     var cornerRadius: CGFloat = 5
 
     // MARK: - Initialization
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+
         backgroundColor = .clear
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     // MARK: - Drawing
 
     override func draw(_ rect: CGRect) {
         super.draw(rect)
-        
+
         guard let ctx = UIGraphicsGetCurrentContext() else { return }
 
         ctx.saveGState()
