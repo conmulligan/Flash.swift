@@ -188,8 +188,6 @@ public class FlashView: UIView {
         super.layoutSubviews()
         guard let superview else { return }
 
-        print("Layout subviews!")
-
         // Layout subviews.
 
         let contentFrame = establishContentFrame(for: superview)
