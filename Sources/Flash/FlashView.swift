@@ -85,6 +85,9 @@ extension FlashView.Configuration {
 
 extension FlashView.Configuration {
 
+    /// The shared configuration.
+    public static var shared: FlashView.Configuration = .defaultConfiguration()
+
     /// The default configuration.
     public static func defaultConfiguration() -> FlashView.Configuration {
         .init(alignment: .top,
@@ -155,7 +158,7 @@ public class FlashView: UIView {
                 configuration: Configuration? = nil) {
         self.text = text
         self.image = image
-        self.configuration = configuration ?? .defaultConfiguration()
+        self.configuration = configuration ?? Configuration.shared
         super.init(frame: .zero)
 
         [backgroundView, imageView, textLabel].forEach { addSubview($0) }
