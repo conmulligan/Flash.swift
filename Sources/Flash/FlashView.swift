@@ -351,7 +351,7 @@ public class FlashView: UIView {
     }
 
     private func addTimer(duration: TimeInterval) {
-        guard timer == nil else { return }
+        guard timer == nil, duration > 0 else { return }
 
         timer = Timer.scheduledTimer(withTimeInterval: duration, repeats: false) { _ in
             self.hide()
@@ -372,7 +372,7 @@ extension FlashView {
     /// Show the flash message in the supplised view.
     /// - Parameters:
     ///   - view: The view to show the flash message in.
-    ///   - duration: The flash message duration.
+    ///   - duration: The flash message duration. Set duration to `0` if you want the flash message to display indefinitely.
     public func show(in view: UIView? = nil, duration: TimeInterval = 2) {
         guard let view = view ?? keyWindow else { return }
 
@@ -381,7 +381,9 @@ extension FlashView {
         view.addSubview(self)
 
         configuration.animator.animateIn(self) {
-            self.addTimer(duration: duration)
+            if duration > 0 {
+                self.addTimer(duration: duration)
+            }
         }
 
         if configuration.playsHaptics {

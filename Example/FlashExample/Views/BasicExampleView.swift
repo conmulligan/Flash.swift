@@ -13,7 +13,7 @@ struct BasicExampleView: View {
         let flash = FlashView(text: "Hello!",
                               image: UIImage(systemName: "star.fill"))
         flash.accessibilityIdentifier = "flash_view"
-        flash.show()
+        flash.show(duration: 5)
     }
 
     var body: some View {

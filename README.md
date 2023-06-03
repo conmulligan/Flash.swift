@@ -35,10 +35,22 @@ If you want to show a flash message in a specific view, you can do so by passing
 flash.show(in: view)
 ```
 
-You can also change the flash message duration by passing a `TimeInterval`:
+By default, flash messages are visible for 2 seconds. You can change the duration by passing a `TimeInterval` value:
 
 ```Swift
-flash.show(in: view, duration: 5) // seconds
+flash.show(duration: 5) // seconds
+```
+
+If you want the flash message to display indefinitely, pass a duration of `0`:
+
+```Swift
+flash.show(duration: 0)
+```
+
+The flash message will be visible until the user taps on it (if tap-to-dismiss is enabled), or until dismissed programatically:
+
+```
+flash.hide()
 ```
 
 #### Custom configuration
