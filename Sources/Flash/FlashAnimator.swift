@@ -26,20 +26,25 @@
 import UIKit
 
 /// A flash message animator.
+///
+/// By default, the flash view uses the ``DefaultAnimator`` to animate in and out.
+/// If you need finer control over the flash view's animation, create a new type that conforms to `FlashAnimator`.
 public protocol FlashAnimator {
-    /// Animation completion handler.
+    /// The animation completion handler.
     typealias CompletionHandler = () -> Void
 
-    /// Animate in the flash view.
+    /// Animates in the flash view.
+    ///
     /// - Parameters:
     ///   - flashView: The flash view to animate in.
-    ///   - completion: The completion handler. This must be called when the animation has finished.
+    ///   - completion: The ``CompletionHandler``. This must be called when the animation has finished.
     func animateIn(_ flashView: FlashView, completion: @escaping CompletionHandler)
 
-    /// Animate out the flash view.
+    /// Animates out the flash view.
+    ///
     /// - Parameters:
     ///   - flashView: The flash view to animate out.
-    ///   - completion: The completion handler. This must be called when the animation has finished.
+    ///   - completion: The ``CompletionHandler`` This must be called when the animation has finished.
     func animationOut(_ flashView: FlashView, completion: @escaping CompletionHandler)
 }
 
@@ -47,12 +52,28 @@ extension DefaultAnimator {
 
     /// The animation configuration.
     public struct Configuration {
+        /// The animation duration.
         public var duration: TimeInterval
+        
+        /// The spring damping ratio.
         public var dampingRatio: CGFloat
+        
+        /// The initial velocity.
         public var initialVelocity: CGVector
+        
+        /// The distance in points the view is translated along the y axis when animating.
         public var translateAmount: CGFloat
+        
+        /// The scale amount. A value of `1` will not scale the view.
         public var scaleCoefficient: CGFloat
-
+        
+        /// Creates a new flash animator.
+        /// - Parameters:
+        ///   - duration: The animation ``duration``.
+        ///   - dampingRatio: The spring ``dampingRatio``.
+        ///   - initialVelocity: The ``initialVelocity``.
+        ///   - translateAmount: The ``translateAmount`` distance in points.
+        ///   - scaleCoefficient: The ``scaleCoefficient``.  A value of `1` will not scale the view.
         public init(duration: TimeInterval? = nil,
                     dampingRatio: CGFloat? = nil,
                     initialVelocity: CGVector? = nil,
@@ -80,17 +101,24 @@ extension DefaultAnimator.Configuration {
     }
 }
 
-/// The default flash animator.
+/// The default ``FlashAnimator``.
+///
+/// The flash animator is responsible for animating in a flash view when shown, and animating out when hidden.
+///
+/// You can adjust the animator's behaviour by creating a custom ``DefaultAnimator/Configuration-swift.struct``.
+/// If you need finer control over the flash view's animation beyond what's possible with the default animator, see ``FlashAnimator``.
 public struct DefaultAnimator: FlashAnimator {
 
     // MARK: - Properties
 
+    /// The animation configuration.
     public let configuration: Configuration
 
     // MARK: - Initialization
 
-    /// Initialize with the supplied animation duration.
-    /// - Parameter configuration: The animation configuration.
+    /// Creates a new animator using the supplied configuration.
+    ///
+    /// - Parameter configuration: The animation ``configuration-swift.property``.
     public init(configuration: Configuration? = nil) {
         self.configuration = configuration ?? .defaultConfiguration()
     }
@@ -102,15 +130,21 @@ public struct DefaultAnimator: FlashAnimator {
         return transform
     }
 
-    // MARK: - FlashAnimator Conformance
+    // MARK: - Flash Animator
 
+    /// Animates in the flash view.
+    ///
+    /// - Parameters:
+    ///   - flashView: The flash view to animate in.
+    ///   - completion: The ``FlashAnimator/CompletionHandler``. This is called when the animation has finished.
     public func animateIn(_ flashView: FlashView, completion: @escaping CompletionHandler) {
         flashView.alpha = 0
         flashView.transform = scaleAndOffset(t: flashView.transform, alignment: flashView.configuration.alignment)
 
         let timingParameters = UISpringTimingParameters(dampingRatio: configuration.dampingRatio,
                                                         initialVelocity: configuration.initialVelocity)
-        let animator = UIViewPropertyAnimator(duration: configuration.duration, timingParameters: timingParameters)
+        let animator = UIViewPropertyAnimator(duration: configuration.duration,
+                                              timingParameters: timingParameters)
 
         animator.addAnimations {
             flashView.alpha = 1
@@ -125,6 +159,11 @@ public struct DefaultAnimator: FlashAnimator {
         animator.startAnimation()
     }
 
+    /// Animates out the flash view.
+    ///
+    /// - Parameters:
+    ///   - flashView: The flash view to animate out.
+    ///   - completion: The ``FlashAnimator/CompletionHandler``. This is called when the animation has finished.
     public func animationOut(_ flashView: FlashView, completion: @escaping CompletionHandler) {
         let animator = UIViewPropertyAnimator(duration: configuration.duration, curve: .easeInOut)
 
@@ -132,7 +171,8 @@ public struct DefaultAnimator: FlashAnimator {
             flashView.alpha = 0
         }
         animator.addAnimations {
-            flashView.transform = scaleAndOffset(t: flashView.transform, alignment: flashView.configuration.alignment)
+            flashView.transform = scaleAndOffset(t: flashView.transform,
+                                                 alignment: flashView.configuration.alignment)
         }
         animator.addCompletion { _ in
             completion()

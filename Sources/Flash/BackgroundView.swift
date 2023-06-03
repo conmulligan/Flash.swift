@@ -24,6 +24,7 @@
 
 import UIKit
 
+/// The background view.
 class BackgroundView: UIView {
 
     /// The background fill color.

@@ -25,19 +25,56 @@
 import UIKit
 
 extension FlashView {
-    /// The flash configuration.
+    /// The flash view configuration.
     public struct Configuration {
+        
+        /// The flash view's alignment, relative to its parent view.
         public var alignment: Configuration.Alignment
+        
+        /// The image-text spacing.
         public var spacing: CGFloat
+        
+        /// The flash view's layout insets, relative to its parent view.
         public var insets: UIEdgeInsets
+        
+        /// The flash view's inner content insets.
         public var contentInsets: UIEdgeInsets
+        
+        /// The background properties.
         public var backgroundProperties: Configuration.BackgroundProperties
+        
+        /// The image properties.
         public var imageProperties: Configuration.ImageProperties
+        
+        /// The title text properties.
         public var titleProperties: Configuration.TitleProperties
+        
+        /// A Boolean value that determines whether the flash view plays haptic feedback when shown.
         public var playsHaptics: Bool
+        
+        /// A Boolean value that determines whether the flash view is dismissed when tapped.
         public var tapToDismiss: Bool
+        
+        /// The flash view animator.
         public var animator: FlashAnimator
-
+        
+        /// Creates a new flash view configuration using the supplied properties.
+        ///
+        /// Use this initiazer if you want to create a flash view configuration from scratch.
+        /// If you only want to change one or two properties while otherwise keeping the default configuration intact,
+        /// consider creating a configuration using ``FlashView/Configuration-swift.struct/defaultConfiguration()`` and changing that as needed.
+        ///
+        /// - Parameters:
+        ///   - alignment: The flash view ``alignment-swift.property``.
+        ///   - spacing: The image-text ``spacing``.
+        ///   - insets: The layout ``insets``.
+        ///   - contentInsets: The ``contentInsets``.
+        ///   - backgroundProperties: The ``backgroundProperties-swift.property``.
+        ///   - imageProperties: The ``imageProperties-swift.property``.
+        ///   - titleProperties: The title text ``titleProperties-swift.property``.
+        ///   - playsHaptics: A boolean, ``playsHaptics`` determines whether the flash view plays haptic feedback when shown.
+        ///   - tapToDismiss: A boolean, ``tapToDismiss``  determines whether the flash view is dismissed when tapped.
+        ///   - animator: The ``animator``.
         public init(alignment: Configuration.Alignment? = nil,
                     spacing: CGFloat? = nil,
                     insets: UIEdgeInsets? = nil,
@@ -66,32 +103,50 @@ extension FlashView {
 }
 
 extension FlashView.Configuration {
-    /// The flash view alignment.
+    /// The flash view alignment, relative to its parent.
     public enum Alignment {
+        /// Top alignment.
         case top
+        
+        /// Bottom alignment.
         case bottom
     }
 
+    /// The flash view's background properties.
     public struct BackgroundProperties {
+        /// The background color.
         public var color: UIColor
+        
+        /// The corner radius.
         public var cornerRadius: CGFloat
     }
 
+    /// The flash view image properties.
     public struct ImageProperties {
+        /// The image tint color.
         public var tintColor: UIColor
     }
 
+    /// The flash view title text properties.
     public struct TitleProperties {
+        /// The title text color.
         public var textColor: UIColor
+        
+        /// The title text font.
         public var font: UIFont
+        
+        /// The number of lines to show. A value of `0` will show as many lines as possible.
         public var numberOfLines: Int
     }
-
 }
 
 extension FlashView.Configuration {
 
     /// The shared configuration.
+    ///
+    /// Use this static property to configure the shared configuration used by all flash views.
+    /// If you only want to customize the appearance of a single flash view, consider passing a ``FlashView/Configuration-swift.struct`` instance to
+    /// ``FlashView/init(text:image:configuration:)`` instead.
     public static var shared: FlashView.Configuration = .defaultConfiguration()
 
     /// The default configuration.
@@ -112,16 +167,18 @@ extension FlashView.Configuration {
 }
 
 /// A flash message view.
+///
+///
 public class FlashView: UIView {
 
     // MARK: - Properties
 
-    /// The toast text.
+    /// The title text.
     public var text: String {
         didSet { updateText(text) }
     }
 
-    /// The toast image.
+    /// The image.
     public var image: UIImage? {
         didSet { updateImage(image) }
     }
@@ -131,7 +188,7 @@ public class FlashView: UIView {
         didSet { updateConfiguration(configuration) }
     }
 
-    /// The timer.
+    /// The visibility duration timer.
     private var timer: Timer?
 
     /// The tap gesture recognizer.
@@ -162,7 +219,13 @@ public class FlashView: UIView {
     }()
 
     // MARK: - Initialization
-
+    
+    /// Creates a new flash view.
+    ///
+    /// - Parameters:
+    ///   - text: The title text.
+    ///   - image: An optional image. If empty, only the title text is displayed.
+    ///   - configuration: The flash view configuration. If omitted, the flash view will use the shared configuration.
     public init(text: String,
                 image: UIImage? = nil,
                 configuration: Configuration? = nil) {
@@ -250,7 +313,9 @@ public class FlashView: UIView {
     // MARK: - Layout
 
     /// Calculate the content frame within the supplied superview.
+    ///
     /// This frame accounts for the superview's safe area insets, and the flash view's `insets` property.
+    ///
     /// - Parameter superview: The superview.
     /// - Returns: The content frame.
     private func establishContentFrame(for superview: UIView) -> CGRect {
@@ -261,6 +326,7 @@ public class FlashView: UIView {
     }
 
     /// Calculates the additional insets needed to layout the flash view between ancestral navigation bars and tab bars.
+    ///
     /// - Parameter superview: The superview.
     /// - Returns: The additional edge insets.
     private func additionalInsets(for superview: UIView) -> UIEdgeInsets {
@@ -285,6 +351,7 @@ public class FlashView: UIView {
     }
 
     /// Walk the view hierachy to determine if the supplied view, or one of its ancestors, is a view of type `V`.
+    ///
     /// - Parameter view: The view whose hierachy to walk back from.
     /// - Returns: A `V` instance if found, otherwise `nil`.
     private func firstAncestralView<V: UIView>(in view: UIView) -> V? {
@@ -303,6 +370,7 @@ public class FlashView: UIView {
     }
 
     /// Hides all existing flash messages in the supplied view.
+    ///
     /// - Parameter view: The view.
     private func hideExistingViews(in view: UIView) {
         let views = view.subviews.compactMap { $0 as? FlashView }
@@ -369,10 +437,22 @@ extension FlashView {
         return foregroundScene?.windows.first(where: \.isKeyWindow)
     }
 
-    /// Show the flash message in the supplised view.
+    /// Show the flash message.
+    ///
+    /// When a flash view is ready to be displayed, call this method. If you want to show the flash view in a specific view, pass it using the `view` property.
+    /// Otherwise, the flash view will be added directly to the key window's view hierarchy.
+    ///
+    /// The flash view will be animated in using a ``FlashAnimator``.
+    /// You can customize the flash animator using the configuration's ``FlashView/Configuration-swift.struct/animator`` property.
+    ///
+    /// To change the duration for which a flash view is visible, use the `duration` parameter. If you want the flash view to remain visible indefinitely,
+    /// set `duration` to `0`.
+    ///
+    /// To hide the flash message manually, call ``hide()``.
+    ///
     /// - Parameters:
-    ///   - view: The view to show the flash message in.
-    ///   - duration: The flash message duration. Set duration to `0` if you want the flash message to display indefinitely.
+    ///   - view: The view to show the flash message in. If a view is omitted, the flash view will be added direclty to the key window's view heirarchy.
+    ///   - duration: The flash message duration in seconds. the default value is `2`. Set duration to `0` if you want the flash message to display indefinitely.
     public func show(in view: UIView? = nil, duration: TimeInterval = 2) {
         guard let view = view ?? keyWindow else { return }
 
@@ -391,7 +471,12 @@ extension FlashView {
         }
     }
 
-    /// Hides the flash message.
+    /// Hides the flash view.
+    ///
+    /// If the flash view has been configured to display indefinitely, or you just want to hide it early, use this method to hide it.
+    ///
+    /// The flash view will be animated in using a ``FlashAnimator``.
+    /// You can customize the flash animator using the configuration's ``FlashView/Configuration-swift.struct/animator`` property.
     public func hide() {
         timer?.invalidate()
         timer = nil
