@@ -172,8 +172,9 @@ struct AdvancedExampleView: View {
                     EdgeInsetsView(edgeInsets: $flashConfig.contentInsets)
                 }
             }
-            Section("Haptics") {
+            Section("Interaction") {
                 Toggle("Plays Haptics", isOn: $flashConfig.playsHaptics)
+                Toggle("Tap to Dismiss", isOn: $flashConfig.tapToDismiss)
             }
         }
         .scrollDismissesKeyboard(.interactively)

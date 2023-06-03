@@ -35,6 +35,7 @@ extension FlashView {
         public var imageProperties: Configuration.ImageProperties
         public var titleProperties: Configuration.TitleProperties
         public var playsHaptics: Bool
+        public var tapToDismiss: Bool
         public var animator: FlashAnimator
 
         public init(alignment: Configuration.Alignment? = nil,
@@ -45,15 +46,20 @@ extension FlashView {
                     imageProperties: Configuration.ImageProperties? = nil,
                     titleProperties: Configuration.TitleProperties? = nil,
                     playsHaptics: Bool? = nil,
+                    tapToDismiss: Bool? = nil,
                     animator: FlashAnimator? = nil) {
             self.alignment = alignment ?? .top
             self.spacing = spacing ?? 0
             self.insets = insets ?? .zero
             self.contentInsets = contentInsets ?? .zero
-            self.backgroundProperties = backgroundProperties ?? .init(color: .clear, cornerRadius: 0)
+            self.backgroundProperties = backgroundProperties ?? .init(color: .clear,
+                                                                      cornerRadius: 0)
             self.imageProperties = imageProperties ?? .init(tintColor: .tintColor)
-            self.titleProperties = titleProperties ?? .init(textColor: .label, font: .preferredFont(forTextStyle: .body), numberOfLines: 0)
+            self.titleProperties = titleProperties ?? .init(textColor: .label,
+                                                            font: .preferredFont(forTextStyle: .body),
+                                                            numberOfLines: 0)
             self.playsHaptics = playsHaptics ?? false
+            self.tapToDismiss = tapToDismiss ?? false
             self.animator = animator ?? DefaultAnimator()
         }
     }
@@ -100,6 +106,7 @@ extension FlashView.Configuration {
                                      font: .preferredFont(forTextStyle: .body),
                                      numberOfLines: 2),
               playsHaptics: true,
+              tapToDismiss: true,
               animator: DefaultAnimator())
     }
 }
@@ -126,6 +133,9 @@ public class FlashView: UIView {
 
     /// The timer.
     private var timer: Timer?
+
+    /// The tap gesture recognizer.
+    private var tapGestureRecognizer: UITapGestureRecognizer?
 
     /// The background view.
     private lazy var backgroundView: BackgroundView = {
@@ -325,7 +335,19 @@ public class FlashView: UIView {
 
         imageView.tintColor = configuration.imageProperties.tintColor
 
+        if configuration.tapToDismiss, tapGestureRecognizer == nil {
+            tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismiss(_:)))
+            addGestureRecognizer(tapGestureRecognizer!)
+        } else if let tapGestureRecognizer {
+            removeGestureRecognizer(tapGestureRecognizer)
+            self.tapGestureRecognizer = nil
+        }
+
         layoutSubviews()
+    }
+
+    @objc private func dismiss(_ sender: AnyObject) {
+        hide()
     }
 
     private func addTimer(duration: TimeInterval) {

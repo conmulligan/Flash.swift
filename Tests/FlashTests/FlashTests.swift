@@ -13,7 +13,7 @@ final class FlashTests: XCTestCase {
         let animator = DefaultAnimator(configuration: configuration)
         XCTAssert(animator.configuration.duration == configuration.duration)
     }
-    
+
     func testSharedConfiguration() {
         FlashView.Configuration.shared.alignment = .bottom
         let flash = FlashView(text: "Test")
