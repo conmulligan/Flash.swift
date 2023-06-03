@@ -97,7 +97,7 @@ extension FlashView.Configuration {
     /// The default configuration.
     public static func defaultConfiguration() -> FlashView.Configuration {
         .init(alignment: .top,
-              spacing: 8,
+              spacing: 4,
               insets: .init(top: 16, left: 16, bottom: 16, right: 16),
               contentInsets: .init(top: 8, left: 12, bottom: 8, right: 12),
               backgroundProperties: .init(color: .systemGray5, cornerRadius: 10),
