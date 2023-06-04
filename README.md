@@ -8,6 +8,8 @@ Flash.swift makes displaying these kinds of messages easy, and gives you flexibi
 
 ## Usage
 
+For an interactive example that you can build and run, check out the Xcode project in the `Example` directory.
+
 ### Basic example
 
 Showing a flash message can be as simple as creating a `FlashView` instance and calling the `show()` function:
