@@ -43,7 +43,14 @@ struct AdvancedExampleView: View {
 
     @State private var animationConfig = DefaultAnimator.Configuration.defaultConfiguration()
 
-    private var foregroundColor: Binding<Color> {
+    private var imageColor: Binding<Color> {
+        Binding(
+            get: { Color(flashConfig.imageProperties.tintColor) },
+            set: { flashConfig.imageProperties.tintColor = UIColor($0) }
+        )
+    }
+
+    private var textColor: Binding<Color> {
         Binding(
             get: { Color(flashConfig.titleProperties.textColor) },
             set: { flashConfig.titleProperties.textColor = UIColor($0) }
@@ -56,8 +63,6 @@ struct AdvancedExampleView: View {
             set: { flashConfig.backgroundProperties.color = UIColor($0) }
         )
     }
-
-    @State private var textColor = Color(uiColor: .white)
 
     // MARK: - Actions
 
@@ -93,7 +98,8 @@ struct AdvancedExampleView: View {
                         .keyboardType(.decimalPad)
                         .frame(width: 80)
                 }
-                ColorPicker("Text Color", selection: foregroundColor)
+                ColorPicker("Image Color", selection: imageColor)
+                ColorPicker("Text Color", selection: textColor)
                 ColorPicker("Background Color", selection: backgroundColor)
                 VStack(spacing: 8) {
                     HStack {
