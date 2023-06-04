@@ -1,10 +1,6 @@
-# ![Flash.swift](Logo.png)
+<img src="logo.png" height="64">
 
-Flash messages for UIKit.
-
--------------------------
-
-## What is this?
+-----
 
 Flash messages -- or toasts, in Android parlance -- are discrete, non-modal alerts designed to notify the user without completely capturing their focus. For example, you might use a flash message to let the user know that new data has finished loading, or that a piece of data has been saved.
 
@@ -116,7 +112,7 @@ FlashView.Configuration.shared.animator = animator
 
 For finer control over animations, create a custom type that conforms to `FlashAnimator`.
 
-#### Default Animator Properties
+#### Configuration Properties
 
 | Property          | Description                                                                                                       |
 |-------------------|-------------------------------------------------------------------------------------------------------------------|
