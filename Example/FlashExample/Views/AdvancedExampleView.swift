@@ -35,7 +35,7 @@ struct AdvancedExampleView: View {
         "folder.fill"
     ]
 
-    @State var symbolName = "star.fill"
+    @State var symbolName: String?
 
     @State var duration: TimeInterval = 2
 
@@ -74,7 +74,10 @@ struct AdvancedExampleView: View {
     }
 
     private func showFlash() {
-        let image = UIImage(systemName: symbolName)?.withRenderingMode(.alwaysTemplate)
+        var image: UIImage?
+        if let symbolName {
+            image = UIImage(systemName: symbolName)?.withRenderingMode(.alwaysTemplate)
+        }
         flashConfig.animator = DefaultAnimator(configuration: animationConfig)
         let flash = FlashView(text: text, image: image, configuration: flashConfig)
         flash.show(duration: duration)

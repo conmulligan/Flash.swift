@@ -28,11 +28,21 @@ struct SymbolPicker: View {
 
     @State var symbolNames: [String]
 
-    @Binding var selected: String
+    @Binding var selected: String?
 
     var body: some View {
         ScrollView(.horizontal) {
             HStack {
+                Text("None")
+                    .font(.caption)
+                    .fontWeight(.medium)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 12)
+                    .background(selected == nil ? Capsule().fill(.tint) : nil)
+                    .foregroundColor(selected == nil ? .white : nil)
+                    .onTapGesture {
+                        selected = nil
+                    }
                 ForEach(symbolNames, id: \.self) { symbolName in
                     Image(systemName: symbolName)
                         .padding(12)
@@ -54,7 +64,7 @@ struct SymbolPicker_Previews: PreviewProvider {
         "folder.fill"
     ]
 
-    @State static var selected = "star.fill"
+    @State static var selected: String?
 
     static var previews: some View {
         SymbolPicker(symbolNames: names, selected: $selected)
