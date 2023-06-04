@@ -27,37 +27,37 @@ import UIKit
 extension FlashView {
     /// The flash view configuration.
     public struct Configuration {
-        
+
         /// The flash view's alignment, relative to its parent view.
         public var alignment: Configuration.Alignment
-        
+
         /// The image-text spacing.
         public var spacing: CGFloat
-        
+
         /// The flash view's layout insets, relative to its parent view.
         public var insets: UIEdgeInsets
-        
+
         /// The flash view's inner content insets.
         public var contentInsets: UIEdgeInsets
-        
+
         /// The background properties.
         public var backgroundProperties: Configuration.BackgroundProperties
-        
+
         /// The image properties.
         public var imageProperties: Configuration.ImageProperties
-        
+
         /// The title text properties.
         public var titleProperties: Configuration.TitleProperties
-        
+
         /// A Boolean value that determines whether the flash view plays haptic feedback when shown.
         public var playsHaptics: Bool
-        
+
         /// A Boolean value that determines whether the flash view is dismissed when tapped.
         public var tapToDismiss: Bool
-        
+
         /// The flash view animator.
         public var animator: FlashAnimator
-        
+
         /// Creates a new flash view configuration using the supplied properties.
         ///
         /// Use this initiazer if you want to create a flash view configuration from scratch.
@@ -107,7 +107,7 @@ extension FlashView.Configuration {
     public enum Alignment {
         /// Top alignment.
         case top
-        
+
         /// Bottom alignment.
         case bottom
     }
@@ -116,7 +116,7 @@ extension FlashView.Configuration {
     public struct BackgroundProperties {
         /// The background color.
         public var color: UIColor
-        
+
         /// The corner radius.
         public var cornerRadius: CGFloat
     }
@@ -131,10 +131,10 @@ extension FlashView.Configuration {
     public struct TitleProperties {
         /// The title text color.
         public var textColor: UIColor
-        
+
         /// The title text font.
         public var font: UIFont
-        
+
         /// The number of lines to show. A value of `0` will show as many lines as possible.
         public var numberOfLines: Int
     }
@@ -219,7 +219,7 @@ public class FlashView: UIView {
     }()
 
     // MARK: - Initialization
-    
+
     /// Creates a new flash view.
     ///
     /// - Parameters:

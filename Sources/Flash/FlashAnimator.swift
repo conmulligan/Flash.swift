@@ -52,21 +52,22 @@ extension DefaultAnimator {
 
     /// The animation configuration.
     public struct Configuration {
-        /// The animation duration.
+        /// The animation duration in seconds.
         public var duration: TimeInterval
-        
-        /// The spring damping ratio.
+
+        /// The spring damping ratio to apply when animating in.
         public var dampingRatio: CGFloat
-        
-        /// The initial velocity.
+
+        /// The initial velocity of the flash view when animating in.
         public var initialVelocity: CGVector
-        
+
         /// The distance in points the view is translated along the y axis when animating.
         public var translateAmount: CGFloat
-        
-        /// The scale amount. A value of `1` will not scale the view.
+
+        /// The amount, between 0 and 1, to scale the view when animating in and out.
+        /// A value of `1` will not scale the view.
         public var scaleCoefficient: CGFloat
-        
+
         /// Creates a new flash animator.
         /// - Parameters:
         ///   - duration: The animation ``duration``.
