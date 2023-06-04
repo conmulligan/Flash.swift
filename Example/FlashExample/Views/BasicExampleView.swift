@@ -10,8 +10,7 @@ import Flash
 
 struct BasicExampleView: View {
     private func showFlash() {
-        let flash = FlashView(text: "Hello!",
-                              image: UIImage(systemName: "star.fill"))
+        let flash = FlashView(text: "Hello!")
         flash.accessibilityIdentifier = "flash_view"
         flash.show(duration: 5)
     }
