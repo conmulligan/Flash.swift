@@ -2,11 +2,19 @@
 
 -----
 
-Flash messages -- or toasts, in Android parlance -- are discrete, non-modal alerts designed to notify the user without completely capturing their focus. For example, you might use a flash message to let the user know that new data has finished loading, or that a piece of data has been saved.
+Flash messages -- or toasts, in Android parlance -- are discrete, non-modal alerts designed to notify users without completely capturing their focus. For example, you might use a flash message to let the user know that new data has finished loading, that a piece of data has been saved, or that a non-critical error has occurred.
 
 Flash.swift makes displaying these kinds of messages easy, and gives you flexibility to custom their appearance and behaviour.
 
-## Usage
+## Screenshots
+
+![Screensshots](screenshots.png)
+
+## Installation
+
+Flash.swift is available through the [Swift Package Manager](https://swift.org/package-manager/). To use Flash.swift with SPM, add `https://github.com/conmulligan/Flash.swift.git` as a dependency.
+
+## Getting Started
 
 For an interactive example that you can build and run, check out the Xcode project in the `Example` directory.
 
@@ -27,9 +35,9 @@ let flash = FlashView(text: "Hello!", image: star)
 flash.show()
 ```
 
-By default, the flash message are added directly to the active window's view heirarchy. They will automatically be inset from the safe area and any navigation UI (navigation bars, tab bars, toolbars). Adding the flash view direct to the window has some advantages; for example, flash message can survive changes to the view heirarchy, like a view controller being popped from a navigation stack.
+By default, flash views are added directly to the active window's view heirarchy. Adding the flash view direct to the window has some advantages; for example, doing so allows the flash view to survive changes to the view heirarchy, like a view controller being popped from a navigation stack.
 
-If you want to show a flash message in a specific view, you can do so by passing a `UIView` instance to the `show()` method:
+If you want to show a flash message in a specific view, pass a `UIView` instance to the `show()` method:
 
 ```swift
 flash.show(in: view)
