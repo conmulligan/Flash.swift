@@ -5,18 +5,17 @@ name: Swift
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ main ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ main ]
 
 jobs:
   build:
-
     runs-on: macos-latest
 
     steps:
     - uses: actions/checkout@v3
     - name: Build
-      run: swift build -v
+      run: xcodebuild -scheme JailbreakDetector -destination "platform=iOS Simulator,OS=latest,name=iPhone 14" -disableAutomaticPackageResolution
     - name: Run tests
-      run: swift test -v
+      run: xcodebuild test -scheme JailbreakDetector -destination "platform=iOS Simulator,OS=latest,name=iPhone 14" -disableAutomaticPackageResolution
