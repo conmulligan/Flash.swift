@@ -4,7 +4,7 @@
 
 [![Swift](https://github.com/conmulligan/Flash.swift/actions/workflows/swift.yml/badge.svg)](https://github.com/conmulligan/Flash.swift/actions/workflows/swift.yml)
 
-Flash messages -- or toasts, in Android parlance -- are discrete, non-modal alerts designed to notify users without completely capturing their focus. For example, you might use a flash message to let the user know that new data has finished loading, that a piece of data has been saved, or that a non-critical error has occurred.
+Flash messages -- or toasts, in Android parlance -- are discrete, non-modal alerts designed to notify users without completely capturing their focus. For example, you might use a flash message to let the user know that new data has finished loading, that a document has been saved, or that a non-critical error has occurred.
 
 Flash.swift makes displaying these kinds of messages easy, and gives you flexibility to custom their appearance and behaviour.
 
@@ -107,7 +107,7 @@ FlashView.Configuration.shared.backgroundProperties.color = .systemBlue
 | `titleProperties`      | The title text properties. Use this to change the text color, font and number of lines.                           |
 | `playsHaptics`         | A Boolean value that determines whether the flash view plays haptic feedback when shown.                          |
 | `tapToDismiss`         | A Boolean value that determines whether the flash view is dismissed when tapped.                                  |
-| `animator`             | The flash view animator. Use this to customise the `DefaultAnimator`, or to supply a custom `FlashAnimator` type. |
+| `animator`             | The flash view animator. Use this to customize the `DefaultAnimator`, or to supply a custom `FlashAnimator` type. |
 
 ### Animation
 
@@ -115,9 +115,9 @@ You can customize flash view animations using the `DefaultAnimator.Configuration
 
 ```swift
 var configuration = DefaultAnimator.Configuration.defaultConfiguration()
-configuration.duration = 0.5
-configuration.scaleCoefficient = 0.5
-xw
+configuration.duration = 0.5 
+configuration.scaleCoefficient = 0.75
+
 let animator = DefaultAnimator(configuration: configuration)
 FlashView.Configuration.shared.animator = animator
 ```
