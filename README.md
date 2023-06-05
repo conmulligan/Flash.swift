@@ -96,18 +96,19 @@ FlashView.Configuration.shared.backgroundProperties.color = .systemBlue
 
 #### Configuration Properties
 
-| Property               | Description                                                                                                       |
-|------------------------|-------------------------------------------------------------------------------------------------------------------|
-| `alignment`            | The flash view's vertical alignment.                                                                              |
-| `spacing`              | The image-text spacing.                                                                                           |
-| `insets`               | The flash view's layout insets, relative to its parent view.                                                      |
-| `contentInsets`        | The flash view's inner content insets.                                                                            |
-| `backgroundProperties` | The background properties. Use this to change the background color and corner radius.                             |
-| `imageProperties`      | The image view properties. Use this to change the image tint color.                                               |
-| `titleProperties`      | The title text properties. Use this to change the text color, font and number of lines.                           |
-| `playsHaptics`         | A Boolean value that determines whether the flash view plays haptic feedback when shown.                          |
-| `tapToDismiss`         | A Boolean value that determines whether the flash view is dismissed when tapped.                                  |
-| `animator`             | The flash view animator. Use this to customize the `DefaultAnimator`, or to supply a custom `FlashAnimator` type. |
+| Property                              | Description                                                                                                               |
+|---------------------------------------|---------------------------------------------------------------------------------------------------------------------------|
+| `alignment`                           | The flash view's vertical alignment.                                                                                      |
+| `spacing`                             | The image-text spacing.                                                                                                   |
+| `insets`                              | The flash view's layout insets, relative to its parent view.                                                              |
+| `contentInsets`                       | The flash view's inner content insets.                                                                                    |
+| `backgroundProperties`                | The background properties. Use this to change the background color and corner radius.                                     |
+| `imageProperties`                     | The image view properties. Use this to change the image tint color.                                                       |
+| `titleProperties`                     | The title text properties. Use this to change the text color, font and number of lines.                                   |
+| `playsHaptics`                        | A Boolean value that determines whether the flash view plays haptic feedback when shown.                                  |
+| `tapToDismiss`                        | A Boolean value that determines whether the flash view is dismissed when tapped.                                          |
+| `appliesAdditionalInsetsAutomatically`| A Boolean value that determines whether the flash view attempts to inset automatically to avoid overlapping navigation UI.|                                 |
+| `animator`                            | The flash view animator. Use this to customize the `DefaultAnimator`, or to supply a custom `FlashAnimator` type.         |
 
 ### Animation
 
