@@ -132,11 +132,11 @@ For finer control over animations, create a custom type that conforms to `FlashA
 | `dampingRatio`    | The spring damping ratio to apply when animating in.                                                              |
 | `initialVelocity` | The initial velocity of the flash view when animating in.                                                         |
 | `translateAmount` | The distance in points the view is translated along the y axis when animating.                                    |
-| `scaleAmount`     | The amount, between 0 and 1, to scale the view when animating in and out. A value of `1` will not scale the view. |
+| `scaleCoefficient`| The amount, between 0 and 1, to scale the view when animating in and out. A value of `1` will not scale the view. |
 
 ### SwiftUI
 
-Flash.swift does not yet expose a native SwiftUI interface, but you can invoke a flash alert as a side effect. For example:
+Flash.swift does not yet expose a native SwiftUI interface, but you can show a flash message as a side effect:
 
 ```swift
 struct ExampleView: View {
