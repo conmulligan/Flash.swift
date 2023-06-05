@@ -1,4 +1,4 @@
-<img src="Logo.png" height="64">
+<img src="https://raw.githubusercontent.com/conmulligan/Flash.swift/main/Logo.png" height="64">
 
 -----
 
@@ -10,7 +10,7 @@ Flash.swift makes displaying these kinds of messages easy, and gives you flexibi
 
 ## Screenshots
 
-![Screensshots](Screenshots.png)
+![Screensshots](https://raw.githubusercontent.com/conmulligan/Flash.swift/main/Screenshots.png)
 
 ## Installation
 
