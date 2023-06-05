@@ -55,6 +55,9 @@ extension FlashView {
         /// A Boolean value that determines whether the flash view is dismissed when tapped.
         public var tapToDismiss: Bool
 
+        /// A Boolean value that determines whether the flash view attempts to inset automatically to avoid overlapping navigation UI.
+        public var appliesAdditionalInsetsAutomatically: Bool
+
         /// The flash view animator.
         public var animator: FlashAnimator
 
@@ -74,6 +77,7 @@ extension FlashView {
         ///   - titleProperties: The title text ``titleProperties-swift.property``.
         ///   - playsHaptics: A boolean, ``playsHaptics`` determines whether the flash view plays haptic feedback when shown.
         ///   - tapToDismiss: A boolean, ``tapToDismiss``  determines whether the flash view is dismissed when tapped.
+        ///   - appliesAdditionalInsetsAutomatically: A Boolean ``appliesAdditionalInsetsAutomatically`` determines whether the flash view attempts to inset automatically.
         ///   - animator: The ``animator``.
         public init(alignment: Configuration.Alignment? = nil,
                     spacing: CGFloat? = nil,
@@ -84,6 +88,7 @@ extension FlashView {
                     titleProperties: Configuration.TitleProperties? = nil,
                     playsHaptics: Bool? = nil,
                     tapToDismiss: Bool? = nil,
+                    appliesAdditionalInsetsAutomatically: Bool? = nil,
                     animator: FlashAnimator? = nil) {
             self.alignment = alignment ?? .top
             self.spacing = spacing ?? 0
@@ -97,6 +102,7 @@ extension FlashView {
                                                             numberOfLines: 0)
             self.playsHaptics = playsHaptics ?? false
             self.tapToDismiss = tapToDismiss ?? false
+            self.appliesAdditionalInsetsAutomatically = appliesAdditionalInsetsAutomatically ?? false
             self.animator = animator ?? DefaultAnimator()
         }
     }
@@ -162,6 +168,7 @@ extension FlashView.Configuration {
                                      numberOfLines: 2),
               playsHaptics: true,
               tapToDismiss: true,
+              appliesAdditionalInsetsAutomatically: true,
               animator: DefaultAnimator())
     }
 }
@@ -319,10 +326,18 @@ public class FlashView: UIView {
     /// - Parameter superview: The superview.
     /// - Returns: The content frame.
     private func establishContentFrame(for superview: UIView) -> CGRect {
-        superview.bounds
-            .inset(by: superview.safeAreaInsets)
-            .inset(by: additionalInsets(for: superview))
-            .inset(by: configuration.insets)
+        // Inset from the parent view's safe area.
+        var frame = superview.bounds.inset(by: superview.safeAreaInsets)
+
+        // If automatic insetting is enabled, apply additional insets.
+        if configuration.appliesAdditionalInsetsAutomatically {
+            frame = frame.inset(by: additionalInsets(for: superview))
+        }
+
+        // Apply the configuration's insets.
+        frame = frame.inset(by: configuration.insets)
+
+        return frame
     }
 
     /// Calculates the additional insets needed to layout the flash view between ancestral navigation bars and tab bars.
@@ -437,7 +452,7 @@ extension FlashView {
         return foregroundScene?.windows.first(where: \.isKeyWindow)
     }
 
-    /// Show the flash message.
+    /// Shows the flash message.
     ///
     /// When a flash view is ready to be displayed, call this method. If you want to show the flash view in a specific view, pass it using the `view` property.
     /// Otherwise, the flash view will be added directly to the key window's view hierarchy.

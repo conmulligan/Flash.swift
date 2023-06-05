@@ -158,6 +158,7 @@ struct AdvancedExampleView: View {
             }
 
             Section("Layout") {
+                Toggle("Inset from navigation UI", isOn: $flashConfig.appliesAdditionalInsetsAutomatically)
                 Picker("Alignment", selection: $flashConfig.alignment) {
                     Text("Top").tag(FlashView.Configuration.Alignment.top)
                     Text("Bottom").tag(FlashView.Configuration.Alignment.bottom)
