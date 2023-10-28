@@ -16,6 +16,6 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build
-      run: xcodebuild -scheme Flash -destination "platform=iOS Simulator,OS=latest,name=iPhone 14" -disableAutomaticPackageResolution
+      run: xcodebuild -scheme Flash -destination "platform=iOS Simulator,OS=latest,name=iPhone 15" -disableAutomaticPackageResolution
     - name: Run tests
-      run: xcodebuild test -scheme Flash -destination "platform=iOS Simulator,OS=latest,name=iPhone 14" -disableAutomaticPackageResolution
+      run: xcodebuild test -scheme Flash -destination "platform=iOS Simulator,OS=latest,name=iPhone 15" -disableAutomaticPackageResolution
