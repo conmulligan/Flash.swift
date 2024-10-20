@@ -26,6 +26,7 @@ import UIKit
 
 extension FlashView {
     /// The flash view configuration.
+    @MainActor
     public struct Configuration {
 
         /// The flash view's alignment, relative to its parent view.
@@ -153,6 +154,7 @@ extension FlashView.Configuration {
     /// Use this static property to configure the shared configuration used by all flash views.
     /// If you only want to customize the appearance of a single flash view, consider passing a ``FlashView/Configuration-swift.struct`` instance to
     /// ``FlashView/init(text:image:configuration:)`` instead.
+    @MainActor
     public static var shared: FlashView.Configuration = .defaultConfiguration()
 
     /// The default configuration.
@@ -437,7 +439,9 @@ public class FlashView: UIView {
         guard timer == nil, duration > 0 else { return }
 
         timer = Timer.scheduledTimer(withTimeInterval: duration, repeats: false) { _ in
-            self.hide()
+            Task { @MainActor in
+                self.hide()
+            }
         }
     }
 }
