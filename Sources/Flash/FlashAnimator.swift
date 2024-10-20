@@ -29,6 +29,7 @@ import UIKit
 ///
 /// By default, the flash view uses the ``DefaultAnimator`` to animate in and out.
 /// If you need finer control over the flash view's animation, create a new type that conforms to `FlashAnimator`.
+@MainActor
 public protocol FlashAnimator {
     /// The animation completion handler.
     typealias CompletionHandler = () -> Void
@@ -108,6 +109,7 @@ extension DefaultAnimator.Configuration {
 ///
 /// You can adjust the animator's behaviour by creating a custom ``DefaultAnimator/Configuration-swift.struct``.
 /// If you need finer control over the flash view's animation beyond what's possible with the default animator, see ``FlashAnimator``.
+@MainActor
 public struct DefaultAnimator: FlashAnimator {
 
     // MARK: - Properties
