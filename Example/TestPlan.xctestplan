@@ -1,0 +1,31 @@
+{
+  "configurations" : [
+    {
+      "id" : "4C1C88A8-C920-4DED-A4A6-DB68A29E089C",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:FlashExample.xcodeproj",
+        "identifier" : "E174433D2A27F51A0036714C",
+        "name" : "FlashExampleUITests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:..",
+        "identifier" : "FlashTests",
+        "name" : "FlashTests"
+      }
+    }
+  ],
+  "version" : 1
+}
