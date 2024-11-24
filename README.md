@@ -2,7 +2,10 @@
 
 -----
 
+[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fconmulligan%2FFlash.swift%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/conmulligan/Flash.swift)
+[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fconmulligan%2FFlash.swift%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/conmulligan/Flash.swift)
 [![Swift](https://github.com/conmulligan/Flash.swift/actions/workflows/swift.yml/badge.svg)](https://github.com/conmulligan/Flash.swift/actions/workflows/swift.yml)
+
 
 Flash messages -- or toasts, in Android parlance -- are discrete, non-modal alerts designed to notify users without completely capturing their focus. For example, you might use a flash message to let the user know that new data has finished loading, that a document has been saved, or that a non-critical error has occurred.
 
