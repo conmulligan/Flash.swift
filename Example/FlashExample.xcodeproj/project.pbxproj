@@ -52,6 +52,7 @@
 		E1BC8F852879F5DB00CCFBAC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E1BC8F882879F5DB00CCFBAC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E1BC8F8A2879F5DB00CCFBAC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E1D41AEE2CF3D10A007A1A46 /* TestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = TestPlan.xctestplan; sourceTree = "<group>"; };
 		E1F176052A280AB700CB34B0 /* TestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = TestPlan.xctestplan; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -108,6 +109,7 @@
 		E1BC8F702879F5DA00CCFBAC = {
 			isa = PBXGroup;
 			children = (
+				E1D41AEE2CF3D10A007A1A46 /* TestPlan.xctestplan */,
 				E1BC8F902879F65C00CCFBAC /* Packages */,
 				E1BC8F7B2879F5DA00CCFBAC /* FlashExample */,
 				E174433F2A27F51A0036714C /* FlashExampleUITests */,
