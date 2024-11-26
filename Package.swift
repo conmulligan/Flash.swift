@@ -23,12 +23,10 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "Flash",
-            dependencies: [],
-            swiftSettings: [
-                .swiftLanguageMode(.v6)
-            ]),
+            dependencies: []),
         .testTarget(
             name: "FlashTests",
             dependencies: ["Flash"]),
-    ]
+    ],
+    swiftLanguageModes: [.v6]
 )
