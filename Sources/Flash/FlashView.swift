@@ -355,7 +355,10 @@ public class FlashView: UIView {
             additionalInsets.top = navigationBar.frame.maxY - superview.safeAreaInsets.top
         }
 
-        let bottomPoint = CGPoint(x: 5, y: superview.frame.maxY - superview.safeAreaInsets.bottom - 5)
+        let bottomPoint = CGPoint(
+            x: superview.frame.size.width / 2,
+            y: superview.frame.maxY - superview.safeAreaInsets.bottom - 5
+        )
         if let hitTest = superview.hitTest(bottomPoint, with: nil) {
             if let tabBar: UITabBar = firstAncestralView(in: hitTest) {
                 additionalInsets.bottom = superview.frame.maxY - tabBar.frame.minY - superview.safeAreaInsets.bottom
