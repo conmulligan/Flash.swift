@@ -97,11 +97,7 @@ extension FlashView {
             self.spacing = spacing ?? 0
             self.insets = insets ?? .zero
             self.contentInsets = contentInsets ?? .zero
-            self.backgroundProperties =
-                backgroundProperties
-                ?? .init(
-                    color: .clear,
-                    cornerRadius: 0)
+            self.backgroundProperties = backgroundProperties ?? .init(color: .clear, cornerRadius: 0)
             self.imageProperties = imageProperties ?? .init(tintColor: .tintColor)
             self.titleProperties =
                 titleProperties
