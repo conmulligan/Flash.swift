@@ -22,8 +22,8 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //  SOFTWARE.
 
-import SwiftUI
 import Flash
+import SwiftUI
 
 struct AdvancedExampleView: View {
 
@@ -32,7 +32,7 @@ struct AdvancedExampleView: View {
     let symbolNames = [
         "star.fill",
         "trash.fill",
-        "folder.fill"
+        "folder.fill",
     ]
 
     @State var symbolName: String?

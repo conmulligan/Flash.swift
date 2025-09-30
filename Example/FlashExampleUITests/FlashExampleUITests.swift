@@ -5,8 +5,8 @@
 //  Created by Conor Mulligan on 31/05/2023.
 //
 
-import XCTest
 import Flash
+import XCTest
 
 final class FlashExampleUITests: XCTestCase {
 

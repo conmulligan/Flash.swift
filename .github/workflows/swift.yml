@@ -12,9 +12,15 @@ jobs:
 
     steps:
     - uses: actions/checkout@v5
+
     - name: Select Xcode 26.0
       run: sudo xcode-select -s /Applications/Xcode_26.0.app
+
+    - name: Lint
+      run: swift format lint --recursive . --strict
+
     - name: Build
       run: xcodebuild -scheme Flash -destination "platform=iOS Simulator,OS=latest,name=iPhone 17" -disableAutomaticPackageResolution
+
     - name: Run tests
       run: xcodebuild test -scheme Flash -destination "platform=iOS Simulator,OS=latest,name=iPhone 17" -disableAutomaticPackageResolution
