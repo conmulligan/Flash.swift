@@ -80,27 +80,31 @@ extension FlashView {
         ///   - tapToDismiss: A boolean, ``tapToDismiss``  determines whether the flash view is dismissed when tapped.
         ///   - appliesAdditionalInsetsAutomatically: A Boolean ``appliesAdditionalInsetsAutomatically`` determines whether the flash view attempts to inset automatically.
         ///   - animator: The ``animator``.
-        public init(alignment: Configuration.Alignment? = nil,
-                    spacing: CGFloat? = nil,
-                    insets: UIEdgeInsets? = nil,
-                    contentInsets: UIEdgeInsets? = nil,
-                    backgroundProperties: Configuration.BackgroundProperties? = nil,
-                    imageProperties: Configuration.ImageProperties? = nil,
-                    titleProperties: Configuration.TitleProperties? = nil,
-                    playsHaptics: Bool? = nil,
-                    tapToDismiss: Bool? = nil,
-                    appliesAdditionalInsetsAutomatically: Bool? = nil,
-                    animator: FlashAnimator? = nil) {
+        public init(
+            alignment: Configuration.Alignment? = nil,
+            spacing: CGFloat? = nil,
+            insets: UIEdgeInsets? = nil,
+            contentInsets: UIEdgeInsets? = nil,
+            backgroundProperties: Configuration.BackgroundProperties? = nil,
+            imageProperties: Configuration.ImageProperties? = nil,
+            titleProperties: Configuration.TitleProperties? = nil,
+            playsHaptics: Bool? = nil,
+            tapToDismiss: Bool? = nil,
+            appliesAdditionalInsetsAutomatically: Bool? = nil,
+            animator: FlashAnimator? = nil
+        ) {
             self.alignment = alignment ?? .top
             self.spacing = spacing ?? 0
             self.insets = insets ?? .zero
             self.contentInsets = contentInsets ?? .zero
-            self.backgroundProperties = backgroundProperties ?? .init(color: .clear,
-                                                                      cornerRadius: 0)
+            self.backgroundProperties = backgroundProperties ?? .init(color: .clear, cornerRadius: 0)
             self.imageProperties = imageProperties ?? .init(tintColor: .tintColor)
-            self.titleProperties = titleProperties ?? .init(textColor: .label,
-                                                            font: .preferredFont(forTextStyle: .body),
-                                                            numberOfLines: 0)
+            self.titleProperties =
+                titleProperties
+                ?? .init(
+                    textColor: .label,
+                    font: .preferredFont(forTextStyle: .body),
+                    numberOfLines: 0)
             self.playsHaptics = playsHaptics ?? false
             self.tapToDismiss = tapToDismiss ?? false
             self.appliesAdditionalInsetsAutomatically = appliesAdditionalInsetsAutomatically ?? false
@@ -159,19 +163,21 @@ extension FlashView.Configuration {
 
     /// The default configuration.
     public static func defaultConfiguration() -> FlashView.Configuration {
-        .init(alignment: .top,
-              spacing: 4,
-              insets: .init(top: 16, left: 16, bottom: 16, right: 16),
-              contentInsets: .init(top: 8, left: 12, bottom: 8, right: 12),
-              backgroundProperties: .init(color: .systemGray5, cornerRadius: 10),
-              imageProperties: .init(tintColor: .label.withAlphaComponent(0.8)),
-              titleProperties: .init(textColor: .label,
-                                     font: .preferredFont(forTextStyle: .body),
-                                     numberOfLines: 2),
-              playsHaptics: true,
-              tapToDismiss: true,
-              appliesAdditionalInsetsAutomatically: true,
-              animator: DefaultAnimator())
+        .init(
+            alignment: .top,
+            spacing: 4,
+            insets: .init(top: 16, left: 16, bottom: 16, right: 16),
+            contentInsets: .init(top: 8, left: 12, bottom: 8, right: 12),
+            backgroundProperties: .init(color: .systemGray5, cornerRadius: 10),
+            imageProperties: .init(tintColor: .label.withAlphaComponent(0.8)),
+            titleProperties: .init(
+                textColor: .label,
+                font: .preferredFont(forTextStyle: .body),
+                numberOfLines: 2),
+            playsHaptics: true,
+            tapToDismiss: true,
+            appliesAdditionalInsetsAutomatically: true,
+            animator: DefaultAnimator())
     }
 }
 
@@ -235,15 +241,19 @@ public class FlashView: UIView {
     ///   - text: The title text.
     ///   - image: An optional image. If empty, only the title text is displayed.
     ///   - configuration: The flash view configuration. If omitted, the flash view will use the shared configuration.
-    public init(text: String,
-                image: UIImage? = nil,
-                configuration: Configuration? = nil) {
+    public init(
+        text: String,
+        image: UIImage? = nil,
+        configuration: Configuration? = nil
+    ) {
         self.text = text
         self.image = image
         self.configuration = configuration ?? Configuration.shared
         super.init(frame: .zero)
 
-        [backgroundView, imageView, textLabel].forEach { addSubview($0) }
+        for view in [backgroundView, imageView, textLabel] {
+            addSubview(view)
+        }
 
         updateText(text)
         updateImage(image)
@@ -283,8 +293,9 @@ public class FlashView: UIView {
         let distance = (image != nil) ? image!.size.width + configuration.spacing : 0
         var (f1, f2) = contentBounds.divided(atDistance: distance, from: .minXEdge)
 
-        let textBounds = textLabel.textRect(forBounds: f2,
-                                            limitedToNumberOfLines: configuration.titleProperties.numberOfLines)
+        let textBounds = textLabel.textRect(
+            forBounds: f2,
+            limitedToNumberOfLines: configuration.titleProperties.numberOfLines)
 
         f2.size = textBounds.size
         f1.size = CGSize(width: image?.size.width ?? 0, height: f2.size.height)
@@ -351,7 +362,8 @@ public class FlashView: UIView {
 
         let topPoint = CGPoint(x: 5, y: superview.safeAreaInsets.top + 5)
         if let hitTest = superview.hitTest(topPoint, with: nil),
-           let navigationBar: UINavigationBar = firstAncestralView(in: hitTest) {
+            let navigationBar: UINavigationBar = firstAncestralView(in: hitTest)
+        {
             additionalInsets.top = navigationBar.frame.maxY - superview.safeAreaInsets.top
         }
 
@@ -394,7 +406,9 @@ public class FlashView: UIView {
     /// - Parameter view: The view.
     private func hideExistingViews(in view: UIView) {
         let views = view.subviews.compactMap { $0 as? FlashView }
-        views.forEach { $0.hide() }
+        for view in views {
+            view.hide()
+        }
     }
 
     /// Plays a light impact haptic feedback.
@@ -454,7 +468,8 @@ extension FlashView {
     // MARK: - Presentation
 
     private var keyWindow: UIWindow? {
-        let foregroundScene = UIApplication.shared.connectedScenes
+        let foregroundScene =
+            UIApplication.shared.connectedScenes
             .first { $0.activationState == .foregroundActive } as? UIWindowScene
         return foregroundScene?.windows.first(where: \.isKeyWindow)
     }

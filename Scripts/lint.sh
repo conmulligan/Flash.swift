@@ -1,14 +1,7 @@
-#!/bin/sh
-set -e
+#!/bin/bash -e
 
-# Workaround for SwiftLint installed via Homebrew on Apple Silicon.
-# https://github.com/realm/SwiftLint/issues/2992
-if test -d "/opt/homebrew/bin/"; then
-    PATH="/opt/homebrew/bin/:${PATH}"
-fi
+echo "Linting..."
 
-if which swiftlint >/dev/null; then
-    swiftlint --fix && swiftlint
-else
-    echo "Warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint"
-fi
+swift format lint -p -r .
+
+echo "Linting complete!"

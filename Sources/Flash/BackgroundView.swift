@@ -54,7 +54,7 @@ class BackgroundView: UIView {
 
         ctx.saveGState()
 
-        let x: CGFloat = (frame.width  - rect.width) / 2
+        let x: CGFloat = (frame.width - rect.width) / 2
         let y: CGFloat = (frame.height - rect.height) / 2
 
         let rect = CGRect(x: x, y: y, width: rect.width, height: rect.height)

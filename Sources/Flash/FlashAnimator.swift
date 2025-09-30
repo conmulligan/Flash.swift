@@ -22,7 +22,6 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //  SOFTWARE.
 
-
 import UIKit
 
 /// A flash message animator.
@@ -76,11 +75,13 @@ extension DefaultAnimator {
         ///   - initialVelocity: The ``initialVelocity``.
         ///   - translateAmount: The ``translateAmount`` distance in points.
         ///   - scaleCoefficient: The ``scaleCoefficient``.  A value of `1` will not scale the view.
-        public init(duration: TimeInterval? = nil,
-                    dampingRatio: CGFloat? = nil,
-                    initialVelocity: CGVector? = nil,
-                    translateAmount: CGFloat? = nil,
-                    scaleCoefficient: CGFloat? = nil) {
+        public init(
+            duration: TimeInterval? = nil,
+            dampingRatio: CGFloat? = nil,
+            initialVelocity: CGVector? = nil,
+            translateAmount: CGFloat? = nil,
+            scaleCoefficient: CGFloat? = nil
+        ) {
             self.duration = duration ?? 0
             self.dampingRatio = dampingRatio ?? 1
             self.initialVelocity = initialVelocity ?? .zero
@@ -94,11 +95,12 @@ extension DefaultAnimator.Configuration {
 
     /// The default configuration.
     public static func defaultConfiguration() -> DefaultAnimator.Configuration {
-        .init(duration: 0.33,
-              dampingRatio: 0.6,
-              initialVelocity: .zero,
-              translateAmount: 16,
-              scaleCoefficient: 0.95
+        .init(
+            duration: 0.33,
+            dampingRatio: 0.6,
+            initialVelocity: .zero,
+            translateAmount: 16,
+            scaleCoefficient: 0.95
         )
     }
 }
@@ -126,7 +128,10 @@ public struct DefaultAnimator: FlashAnimator {
         self.configuration = configuration ?? .defaultConfiguration()
     }
 
-    private func scaleAndOffset(t: CGAffineTransform, alignment: FlashView.Configuration.Alignment) -> CGAffineTransform {
+    private func scaleAndOffset(
+        t: CGAffineTransform,
+        alignment: FlashView.Configuration.Alignment
+    ) -> CGAffineTransform {
         let orientation: CGFloat = alignment == .bottom ? 1 : -1
         var transform = t.translatedBy(x: 0, y: configuration.translateAmount * orientation)
         transform = transform.scaledBy(x: configuration.scaleCoefficient, y: configuration.scaleCoefficient)
@@ -144,10 +149,12 @@ public struct DefaultAnimator: FlashAnimator {
         flashView.alpha = 0
         flashView.transform = scaleAndOffset(t: flashView.transform, alignment: flashView.configuration.alignment)
 
-        let timingParameters = UISpringTimingParameters(dampingRatio: configuration.dampingRatio,
-                                                        initialVelocity: configuration.initialVelocity)
-        let animator = UIViewPropertyAnimator(duration: configuration.duration,
-                                              timingParameters: timingParameters)
+        let timingParameters = UISpringTimingParameters(
+            dampingRatio: configuration.dampingRatio,
+            initialVelocity: configuration.initialVelocity)
+        let animator = UIViewPropertyAnimator(
+            duration: configuration.duration,
+            timingParameters: timingParameters)
 
         animator.addAnimations {
             flashView.alpha = 1
@@ -174,8 +181,9 @@ public struct DefaultAnimator: FlashAnimator {
             flashView.alpha = 0
         }
         animator.addAnimations {
-            flashView.transform = scaleAndOffset(t: flashView.transform,
-                                                 alignment: flashView.configuration.alignment)
+            flashView.transform = scaleAndOffset(
+                t: flashView.transform,
+                alignment: flashView.configuration.alignment)
         }
         animator.addCompletion { _ in
             completion()

@@ -5,8 +5,8 @@
 //  Created by Conor Mulligan on 28/05/2023.
 //
 
-import SwiftUI
 import Flash
+import SwiftUI
 
 struct BasicExampleView: View {
     private func showFlash() {

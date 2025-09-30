@@ -61,7 +61,7 @@ struct SymbolPicker_Previews: PreviewProvider {
     static let names = [
         "star.fill",
         "trash.fill",
-        "folder.fill"
+        "folder.fill",
     ]
 
     @State static var selected: String?
