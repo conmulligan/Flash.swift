@@ -2,6 +2,6 @@
 
 echo "Linting..."
 
-swift-format lint -p -r ./Example ./Sources ./Tests
+swift format lint -p -r .
 
 echo "Linting complete!"

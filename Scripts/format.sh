@@ -2,6 +2,6 @@
 
 echo "Formatting..."
 
-swift format format -i -p -r ./Example ./Sources ./Tests
+swift format format -i -p -r .
 
 echo "Formatting complete!"
