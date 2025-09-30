@@ -251,7 +251,9 @@ public class FlashView: UIView {
         self.configuration = configuration ?? Configuration.shared
         super.init(frame: .zero)
 
-        [backgroundView, imageView, textLabel].forEach { addSubview($0) }
+        for view in [backgroundView, imageView, textLabel] {
+            addSubview(view)
+        }
 
         updateText(text)
         updateImage(image)
@@ -404,7 +406,9 @@ public class FlashView: UIView {
     /// - Parameter view: The view.
     private func hideExistingViews(in view: UIView) {
         let views = view.subviews.compactMap { $0 as? FlashView }
-        views.forEach { $0.hide() }
+        for view in views {
+            view.hide()
+        }
     }
 
     /// Plays a light impact haptic feedback.
