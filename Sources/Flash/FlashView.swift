@@ -97,7 +97,7 @@ extension FlashView {
             self.spacing = spacing ?? 0
             self.insets = insets ?? .zero
             self.contentInsets = contentInsets ?? .zero
-            self.backgroundProperties = backgroundProperties ?? .init(color: .clear, cornerRadius: 0)
+            self.backgroundProperties = backgroundProperties ?? .init(color: .clear, cornerRadius: 0, style: .default)
             self.imageProperties = imageProperties ?? .init(tintColor: .tintColor)
             self.titleProperties =
                 titleProperties
@@ -114,6 +114,14 @@ extension FlashView {
 }
 
 extension FlashView.Configuration {
+    /// The background style.
+    public enum BackgroundStyle: Hashable {
+        case `default`
+        case blur
+        @available(iOS 26, *)
+        case liquidGlass
+    }
+
     /// The flash view alignment, relative to its parent.
     public enum Alignment {
         /// Top alignment.
@@ -130,6 +138,9 @@ extension FlashView.Configuration {
 
         /// The corner radius.
         public var cornerRadius: CGFloat
+
+        /// The background style.
+        public var style: BackgroundStyle
     }
 
     /// The flash view image properties.
@@ -168,7 +179,7 @@ extension FlashView.Configuration {
             spacing: 4,
             insets: .init(top: 16, left: 16, bottom: 16, right: 16),
             contentInsets: .init(top: 8, left: 12, bottom: 8, right: 12),
-            backgroundProperties: .init(color: .systemGray5, cornerRadius: 10),
+            backgroundProperties: .init(color: .systemGray5, cornerRadius: 10, style: .default),
             imageProperties: .init(tintColor: .label.withAlphaComponent(0.8)),
             titleProperties: .init(
                 textColor: .label,
@@ -177,7 +188,8 @@ extension FlashView.Configuration {
             playsHaptics: true,
             tapToDismiss: true,
             appliesAdditionalInsetsAutomatically: true,
-            animator: DefaultAnimator())
+            animator: DefaultAnimator()
+        )
     }
 }
 
@@ -189,19 +201,13 @@ public class FlashView: UIView {
     // MARK: - Properties
 
     /// The title text.
-    public var text: String {
-        didSet { updateText(text) }
-    }
+    public var text: String
 
     /// The image.
-    public var image: UIImage? {
-        didSet { updateImage(image) }
-    }
+    public var image: UIImage?
 
     /// The flash configuration.
-    public var configuration: Configuration {
-        didSet { updateConfiguration(configuration) }
-    }
+    public var configuration: Configuration
 
     /// The visibility duration timer.
     private var timer: Timer?
@@ -209,13 +215,8 @@ public class FlashView: UIView {
     /// The tap gesture recognizer.
     private var tapGestureRecognizer: UITapGestureRecognizer?
 
-    /// The background view.
-    private lazy var backgroundView: BackgroundView = {
-        let backgroundView = BackgroundView(frame: bounds)
-        backgroundView.fillColor = .systemGray5
-        backgroundView.cornerRadius = 10
-        return backgroundView
-    }()
+    /// The container view.
+    private var containerView: UIView?
 
     /// The image view.
     private lazy var imageView: UIImageView = {
@@ -251,13 +252,8 @@ public class FlashView: UIView {
         self.configuration = configuration ?? Configuration.shared
         super.init(frame: .zero)
 
-        for view in [backgroundView, imageView, textLabel] {
-            addSubview(view)
-        }
-
         updateText(text)
         updateImage(image)
-        updateConfiguration(self.configuration)
     }
 
     required init?(coder: NSCoder) {
@@ -283,8 +279,6 @@ public class FlashView: UIView {
         super.layoutSubviews()
         guard let superview else { return }
 
-        // Layout subviews.
-
         let contentFrame = establishContentFrame(for: superview)
 
         let contentBounds = CGRect(origin: .zero, size: contentFrame.size)
@@ -300,6 +294,7 @@ public class FlashView: UIView {
         f2.size = textBounds.size
         f1.size = CGSize(width: image?.size.width ?? 0, height: f2.size.height)
 
+        containerView?.frame = bounds
         imageView.frame = f1
         textLabel.frame = f2
     }
@@ -313,7 +308,7 @@ public class FlashView: UIView {
             height: (textLabel.frame.maxY + configuration.contentInsets.bottom).rounded()
         )
 
-        backgroundView.frame = bounds
+        containerView?.frame = bounds
 
         switch configuration.alignment {
         case .top:
@@ -427,10 +422,7 @@ public class FlashView: UIView {
         imageView.image = image
     }
 
-    private func updateConfiguration(_ configuration: Configuration) {
-        backgroundView.fillColor = configuration.backgroundProperties.color
-        backgroundView.cornerRadius = configuration.backgroundProperties.cornerRadius
-
+    private func layoutFlash() {
         textLabel.textColor = configuration.titleProperties.textColor
         textLabel.font = configuration.titleProperties.font
         textLabel.numberOfLines = configuration.titleProperties.numberOfLines
@@ -443,6 +435,49 @@ public class FlashView: UIView {
         } else if let tapGestureRecognizer {
             removeGestureRecognizer(tapGestureRecognizer)
             self.tapGestureRecognizer = nil
+        }
+
+        switch configuration.backgroundProperties.style {
+        case .default:
+            let backgroundView = BackgroundView(frame: bounds)
+            backgroundView.fillColor = configuration.backgroundProperties.color
+            backgroundView.cornerRadius = configuration.backgroundProperties.cornerRadius
+
+            backgroundView.addSubview(imageView)
+            backgroundView.addSubview(textLabel)
+            addSubview(backgroundView)
+
+            self.containerView = backgroundView
+        case .blur:
+            let effectView = UIVisualEffectView()
+            effectView.backgroundColor = configuration.backgroundProperties.color
+
+            let blurEffect = UIBlurEffect()
+            effectView.effect = blurEffect
+
+            effectView.contentView.addSubview(imageView)
+            effectView.contentView.addSubview(textLabel)
+            addSubview(effectView)
+
+            self.containerView = effectView
+        case .liquidGlass:
+            if #available(iOS 26.0, *) {
+                let effectView = UIVisualEffectView()
+
+                effectView.cornerConfiguration = UICornerConfiguration.corners(
+                    radius: .fixed(configuration.backgroundProperties.cornerRadius)
+                )
+
+                let glassEffect = UIGlassEffect()
+                glassEffect.tintColor = configuration.backgroundProperties.color
+                effectView.effect = glassEffect
+
+                effectView.contentView.addSubview(imageView)
+                effectView.contentView.addSubview(textLabel)
+                addSubview(effectView)
+
+                self.containerView = effectView
+            }
         }
 
         layoutSubviews()
@@ -495,6 +530,7 @@ extension FlashView {
 
         hideExistingViews(in: view)
 
+        layoutFlash()
         view.addSubview(self)
 
         configuration.animator.animateIn(self) {

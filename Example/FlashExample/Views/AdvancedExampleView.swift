@@ -50,6 +50,13 @@ struct AdvancedExampleView: View {
         )
     }
 
+    private var backgroundStyle: Binding<FlashView.Configuration.BackgroundStyle> {
+        Binding(
+            get: { flashConfig.backgroundProperties.style },
+            set: { flashConfig.backgroundProperties.style = $0 }
+        )
+    }
+
     private var textColor: Binding<Color> {
         Binding(
             get: { Color(flashConfig.titleProperties.textColor) },
@@ -103,7 +110,17 @@ struct AdvancedExampleView: View {
                 }
                 ColorPicker("Image Color", selection: imageColor)
                 ColorPicker("Text Color", selection: textColor)
+
+                Picker("Background Style", selection: $flashConfig.backgroundProperties.style) {
+                    Text("Default").tag(FlashView.Configuration.BackgroundStyle.default)
+                    Text("Blur").tag(FlashView.Configuration.BackgroundStyle.blur)
+                    if #available(iOS 26, *) {
+                        Text("Liquid Glass").tag(FlashView.Configuration.BackgroundStyle.liquidGlass)
+                    }
+                }
+
                 ColorPicker("Background Color", selection: backgroundColor)
+
                 VStack(spacing: 8) {
                     HStack {
                         Text("Corner Radius")
@@ -113,6 +130,7 @@ struct AdvancedExampleView: View {
                     }
                     Slider(value: $flashConfig.backgroundProperties.cornerRadius, in: 0...100)
                 }
+
                 Stepper(value: $flashConfig.titleProperties.numberOfLines, in: 0...10, step: 1) {
                     HStack {
                         Text("Number of Lines")
