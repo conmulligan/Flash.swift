@@ -212,7 +212,7 @@ public class FlashView: UIView {
     /// The background view.
     private lazy var backgroundView: BackgroundView = {
         let backgroundView = BackgroundView(frame: bounds)
-        backgroundView.fillColor = .systemGray5
+        backgroundView.fillColor = .black
         backgroundView.cornerRadius = 10
         return backgroundView
     }()
@@ -374,8 +374,12 @@ public class FlashView: UIView {
         if let hitTest = superview.hitTest(bottomPoint, with: nil) {
             if let tabBar: UITabBar = firstAncestralView(in: hitTest) {
                 additionalInsets.bottom = superview.frame.maxY - tabBar.frame.minY - superview.safeAreaInsets.bottom
-            } else if let toolbar: UIToolbar = firstAncestralView(in: hitTest) {
-                additionalInsets.bottom = superview.frame.maxY - toolbar.frame.minY - superview.safeAreaInsets.bottom
+            } else {
+                #if !os(tvOS)
+                if let toolbar: UIToolbar = firstAncestralView(in: hitTest) {
+                    additionalInsets.bottom = superview.frame.maxY - toolbar.frame.minY - superview.safeAreaInsets.bottom
+                }
+                #endif
             }
         }
 
@@ -411,11 +415,13 @@ public class FlashView: UIView {
         }
     }
 
+    #if !os(tvOS)
     /// Plays a light impact haptic feedback.
     private func playHaptics() {
         let feedbackGenerator = UIImpactFeedbackGenerator(style: .light)
         feedbackGenerator.impactOccurred()
     }
+    #endif
 
     // MARK: - State
 
@@ -503,9 +509,11 @@ extension FlashView {
             }
         }
 
+        #if !os(tvOS)
         if configuration.playsHaptics {
             playHaptics()
         }
+        #endif
     }
 
     /// Hides the flash view.
