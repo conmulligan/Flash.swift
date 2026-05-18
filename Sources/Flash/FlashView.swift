@@ -168,8 +168,8 @@ extension FlashView.Configuration {
             spacing: 4,
             insets: .init(top: 16, left: 16, bottom: 16, right: 16),
             contentInsets: .init(top: 8, left: 12, bottom: 8, right: 12),
-            backgroundProperties: .init(color: .systemGray5, cornerRadius: 10),
-            imageProperties: .init(tintColor: .label.withAlphaComponent(0.8)),
+            backgroundProperties: .init(color: .black, cornerRadius: 10),
+            imageProperties: .init(tintColor: .white.withAlphaComponent(0.8)),
             titleProperties: .init(
                 textColor: .label,
                 font: .preferredFont(forTextStyle: .body),
